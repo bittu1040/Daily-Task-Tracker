@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 interface Task {
@@ -14,7 +15,7 @@ interface Task {
 
 @Component({
   selector: 'app-task-summary',
-  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, MatExpansionModule],
   templateUrl: './task-summary.component.html',
   styleUrl: './task-summary.component.scss'
 })
