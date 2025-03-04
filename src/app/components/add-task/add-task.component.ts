@@ -4,6 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
 
 interface Task {
   id: number;
@@ -14,7 +15,7 @@ interface Task {
 
 @Component({
   selector: 'app-add-task',
-  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, FormsModule],
+  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, FormsModule, MatDividerModule],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })

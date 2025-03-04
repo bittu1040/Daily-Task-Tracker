@@ -1,0 +1,40 @@
+<mat-card appearance="outlined">
+    <mat-card-header>
+        <mat-card-title>
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <mat-icon class="me-2 text-primary">list</mat-icon>
+                    My Tasks
+                </div>
+                <span class="badge bg-primary rounded-pill">{{ tasks.length }}</span>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="p-3">
+        <mat-divider></mat-divider>
+        <div class="list-group list-group-flush">
+            @for (task of tasks; track $index) {
+            <div class="list-group-item task-item p-3" [class.completed]="task.completed">
+                <div class="d-flex align-items-center">
+                    <mat-checkbox [checked]="task.completed" (change)="toggleTask(task)" color="primary">
+                        <span [class.completed-task]="task.completed">{{ task.title }}</span>
+                    </mat-checkbox>
+                    <button mat-icon-button color="warn" class="ms-auto" (click)="deleteTask(task)"
+                        matTooltip="Delete task">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+
+        @if(tasks.length === 0){
+        <div class="empty-state">
+            <div class="text-center">
+                <mat-icon class="fs-1 mb-2">inbox</mat-icon>
+                <p>No tasks added yet. Add your first task above!</p>
+            </div>
+        </div>
+        }
+    </mat-card-content>
+</mat-card>

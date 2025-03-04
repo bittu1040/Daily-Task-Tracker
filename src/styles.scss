@@ -188,7 +188,7 @@ body.theme-purple {
 }
 
 .empty-state {
-  min-height: 150px;
+  min-height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -215,4 +215,8 @@ body.theme-purple {
 .mat-mdc-raised-button:not(:disabled) {
   background-color: var(--primary-color) !important;
   color: #fff !important;
+}
+
+mat-card{
+  min-height: 218px;
 }
