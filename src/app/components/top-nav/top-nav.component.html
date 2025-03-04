@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <div class="container">
+      <span class="navbar-brand">
+        <i class="bi bi-check2-square me-2"></i>Task Tracker
+      </span>
+      
+      <div class="ms-auto theme-selector">
+        <div 
+          class="theme-option theme-blue-option" 
+          [class.active]="currentTheme === 'blue'"
+          (click)="setTheme('blue')" 
+          matTooltip="Light Blue Theme">
+        </div>
+        <div 
+          class="theme-option theme-pink-option" 
+          [class.active]="currentTheme === 'pink'"
+          (click)="setTheme('pink')" 
+          matTooltip="Light Pink Theme">
+        </div>
+        <div 
+          class="theme-option theme-purple-option" 
+          [class.active]="currentTheme === 'purple'"
+          (click)="setTheme('purple')" 
+          matTooltip="Light Purple Theme">
+        </div>
+      </div>
+    </div>
+  </nav>
