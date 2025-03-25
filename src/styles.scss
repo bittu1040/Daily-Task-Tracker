@@ -97,6 +97,7 @@ body.theme-purple {
 .theme-selector {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .theme-option {
@@ -185,6 +186,8 @@ body.theme-purple {
 .navbar-brand {
   font-weight: 600;
   letter-spacing: 0.5px;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 .empty-state {

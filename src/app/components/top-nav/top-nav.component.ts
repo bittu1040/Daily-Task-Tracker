@@ -1,19 +1,30 @@
-import { Component } from '@angular/core';
-
+import { NgIf } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonService } from '../../services/common.service';
 
 type Theme = 'blue' | 'pink' | 'purple';
 
 @Component({
   selector: 'app-top-nav',
-  imports: [],
+  imports: [MatIconModule, MatMenuModule, NgIf, MatButtonModule],
   templateUrl: './top-nav.component.html',
   styleUrl: './top-nav.component.scss'
 })
 export class TopNavComponent {
   currentTheme: Theme = 'blue';
+  commonService = inject(CommonService);
+
 
   constructor() {
     this.loadTheme();
+  }
+
+  logout() {
+    this.commonService.isLoggedIn.set(false);
+    // यहाँ लोकल स्टोरेज से यूजर डेटा क्लियर करें
   }
 
   loadTheme() {

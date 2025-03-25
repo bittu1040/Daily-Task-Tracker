@@ -23,6 +23,20 @@
           (click)="setTheme('purple')" 
           matTooltip="Light Purple Theme">
         </div>
+
+        <span class="navbar-brand user-menu" *ngIf="commonService.isLoggedIn()" [matMenuTriggerFor]="userMenu">
+          <i class="bi bi-person-circle"></i>
+        </span>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>person</mat-icon>
+            <span>User name </span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
       </div>
     </div>
   </nav>
