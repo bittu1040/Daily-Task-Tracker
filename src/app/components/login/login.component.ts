@@ -21,7 +21,6 @@ import { MatMenuModule } from '@angular/material/menu';
 })
 export class LoginComponent {
 
-  isLoggedIn = false;
   username = '';
   loginForm = {
     email: '',
@@ -32,7 +31,6 @@ export class LoginComponent {
   login() {
     // डमी लॉगिन लॉजिक
     if (this.loginForm.email === 'demo' && this.loginForm.password === 'demo123') {
-      this.isLoggedIn = true;
       this.username = this.loginForm.email;
       // यहाँ आप लोकल स्टोरेज में यूजर डेटा सेव कर सकते हैं
     }
