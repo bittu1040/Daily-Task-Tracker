@@ -7,5 +7,5 @@ export class CommonService {
 
   constructor() { }
 
-  isLoggedIn = signal(false);
+  // isLoggedIn = signal(false);
 }

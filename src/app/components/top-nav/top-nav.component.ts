@@ -5,6 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 type Theme = 'blue' | 'pink' | 'purple';
 
@@ -17,6 +18,7 @@ type Theme = 'blue' | 'pink' | 'purple';
 export class TopNavComponent {
   currentTheme: Theme = 'blue';
   commonService = inject(CommonService);
+  authService = inject(AuthService);
   router = inject(Router);
 
 
@@ -25,9 +27,8 @@ export class TopNavComponent {
   }
 
   logout() {
-    this.commonService.isLoggedIn.set(false);
+    this.authService.logout();
     this.router.navigate(['/login']);
-    // यहाँ लोकल स्टोरेज से यूजर डेटा क्लियर करें
   }
 
   loadTheme() {

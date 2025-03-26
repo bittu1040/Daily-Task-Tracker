@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { NgIf } from '@angular/common';
 import { LoginPayload, RegisterPayload } from '../../models/interface';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,8 @@ export class LoginComponent {
   commonService = inject(CommonService);
   authService = inject(AuthService);
   router = inject(Router);
+  toastr= inject(ToastrService);
+
   isRegistering = false;
 
   loginForm: LoginPayload = {
@@ -61,10 +64,8 @@ export class LoginComponent {
   login() {
     this.authService.login(this.loginForm).subscribe({
       next: (response) => {
-        console.log('Login successful:', response);
-        alert('Login successful!');
+        this.toastr.success('Login successful!');
         this.authService.saveToken(response.token);
-        this.commonService.isLoggedIn.set(true);
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {

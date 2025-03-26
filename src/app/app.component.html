@@ -1,6 +1,5 @@
 <app-top-nav></app-top-nav>
 
 <div class="container">
-    <app-login *ngIf="!commonService.isLoggedIn()"></app-login>
-    <router-outlet *ngIf="commonService.isLoggedIn()" /> 
+    <router-outlet/> 
 </div>
