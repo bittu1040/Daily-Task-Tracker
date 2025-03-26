@@ -10,18 +10,8 @@ import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgIf } from '@angular/common';
-
-
-
-interface User {
-  email: string;
-  password: string;
-}
-
-interface RegisterUser extends User {
-  confirmPassword: string;
-  name: string;
-}
+import { LoginPayload, RegisterPayload } from '../../models/interface';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -40,30 +30,20 @@ interface RegisterUser extends User {
 export class LoginComponent {
 
   commonService = inject(CommonService);
+  authService = inject(AuthService);
   router = inject(Router);
   isRegistering = false;
 
-  loginForm: User = {
+  loginForm: LoginPayload = {
     email: '',
     password: ''
   };
 
-  registerForm: RegisterUser = {
+  registerForm: RegisterPayload = {
     email: '',
     password: '',
-    confirmPassword: '',
     name: ''
   };
-
-
-  login() {
-    // डमी लॉगिन लॉजिक
-    if (this.loginForm.email === 'bittu@gmail.com' && this.loginForm.password === '123456') {
-      this.commonService.isLoggedIn.set(true);
-      this.router.navigate(['/dashboard']);
-      // यहाँ आप लोकल स्टोरेज में यूजर डेटा सेव कर सकते हैं
-    }
-  }
 
   toggleRegister() {
     this.isRegistering = !this.isRegistering;
@@ -74,20 +54,38 @@ export class LoginComponent {
     this.registerForm = {
       email: '',
       password: '',
-      confirmPassword: '',
       name: ''
     };
   }
 
-  register() {
-    if (this.registerForm.password !== this.registerForm.confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
+  login() {
+    this.authService.login(this.loginForm).subscribe({
+      next: (response) => {
+        console.log('Login successful:', response);
+        alert('Login successful!');
+        this.authService.saveToken(response.token);
+        this.commonService.isLoggedIn.set(true);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+        alert('Login failed. Please check your credentials.');
+      }
+    })
+  }
 
-    // For demo purposes, just show an alert and switch to login
-    alert('Registration successful! Please login with the demo account.');
-    this.isRegistering = false;
+  register() {
+    this.authService.register(this.registerForm).subscribe(
+      (response) => {
+        console.log('Registration successful:', response);
+        alert('Registration successful! You can now log in.');
+        this.toggleRegister();
+      },
+      (error) => {
+        console.error('Registration failed:', error);
+        alert('Registration failed. Please try again.');
+      }
+    );
   }
 
 }
