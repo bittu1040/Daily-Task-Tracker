@@ -7,6 +7,7 @@ import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserProfile } from '../../models/interface';
 
 type Theme = 'blue' | 'pink' | 'purple';
 
@@ -18,6 +19,8 @@ type Theme = 'blue' | 'pink' | 'purple';
 })
 export class TopNavComponent {
   currentTheme: Theme = 'blue';
+  userName: string | null = null;
+
   commonService = inject(CommonService);
   authService = inject(AuthService);
   router = inject(Router);
@@ -27,6 +30,21 @@ export class TopNavComponent {
   constructor() {
     this.loadTheme();
   }
+
+
+  getProfile(){
+    if (this.authService.isLoggedIn()) {
+      this.authService.getUserProfile().subscribe({
+        next: (profile: UserProfile) => {
+          this.userName = profile.name;
+        },
+        error: (error) => {
+          console.error('Failed to fetch user profile:', error);
+        },
+      });
+    }
+  }
+
 
   logout() {
     this.authService.logout();

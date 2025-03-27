@@ -22,3 +22,11 @@ export interface refreshTokenResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+
+export interface UserProfile {
+  _id: string;
+  name: string;
+  email: string;
+  date: string;
+}

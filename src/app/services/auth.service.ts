@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { LoginPayload, LoginResponse, refreshTokenResponse, RegisterPayload, RegisterResponse } from '../models/interface';
+import { LoginPayload, LoginResponse, refreshTokenResponse, RegisterPayload, RegisterResponse, UserProfile } from '../models/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,10 @@ export class AuthService {
           this.saveTokens(response.accessToken, response.refreshToken);
         })
       );
+  }
+
+  getUserProfile(): Observable<UserProfile> {
+      return this.http.get<UserProfile>(`${this.baseUrl}/profile`);
   }
 
   saveTokens(accessToken: string, refreshToken: string): void {
