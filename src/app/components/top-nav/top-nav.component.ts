@@ -29,6 +29,7 @@ export class TopNavComponent {
 
   constructor() {
     this.loadTheme();
+    this.getProfile();
   }
 
 
