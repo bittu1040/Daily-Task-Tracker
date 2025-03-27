@@ -10,9 +10,15 @@ export interface LoginPayload {
 }
 
 export interface LoginResponse {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface RegisterResponse {
   message: string;
+}
+
+export interface refreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
 }

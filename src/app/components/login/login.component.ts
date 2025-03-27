@@ -65,7 +65,7 @@ export class LoginComponent {
     this.authService.login(this.loginForm).subscribe({
       next: (response) => {
         this.toastr.success('Login successful!');
-        this.authService.saveToken(response.token);
+        this.authService.saveTokens(response.accessToken, response.refreshToken);
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
@@ -78,13 +78,11 @@ export class LoginComponent {
   register() {
     this.authService.register(this.registerForm).subscribe(
       (response) => {
-        console.log('Registration successful:', response);
-        alert('Registration successful! You can now log in.');
+        this.toastr.success('Registration successful!');
         this.toggleRegister();
       },
       (error) => {
-        console.error('Registration failed:', error);
-        alert('Registration failed. Please try again.');
+        this.toastr.error('Registration failed!');
       }
     );
   }

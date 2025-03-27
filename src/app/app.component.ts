@@ -1,13 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TopNavComponent } from './components/top-nav/top-nav.component';
-import { NgIf } from '@angular/common';
-import { LoginComponent } from './components/login/login.component';
 import { CommonService } from './services/common.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TopNavComponent, NgIf, LoginComponent],
+  imports: [RouterOutlet, TopNavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
