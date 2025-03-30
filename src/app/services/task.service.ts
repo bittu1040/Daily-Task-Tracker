@@ -22,12 +22,9 @@ export class TaskService {
     return this.http.post<Task>(`${this.baseUrl}/add`, { title });
   }
 
-  // Mark a task as done
-  markTaskAsDone(taskId: string): Observable<{ message: string; task: Task }> {
-    return this.http.patch<{ message: string; task: Task }>(
-      `${this.baseUrl}/done/${taskId}`,
-      {}
-    );
+  // Mark a task as done or not done
+  updateTaskStatus(taskId: string, done: boolean): Observable<{ message: string; task: Task }> {
+    return this.http.patch<{ message: string; task: Task }>(`${this.baseUrl}/done/${taskId}`, { done });
   }
 
   // Delete a task

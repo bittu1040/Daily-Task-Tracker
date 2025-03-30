@@ -41,14 +41,17 @@ export class TaskListComponent {
     });
   }
 
-  markAsDone(task: Task): void {
-    this.taskService.markTaskAsDone(task._id).subscribe({
+  // Toggle task completion
+  toggleTaskCompletion(task: Task): void {
+    const updatedStatus = !task.done; // Use `done` instead of `completed`
+    this.taskService.updateTaskStatus(task._id, updatedStatus).subscribe({
       next: (response) => {
-        task.completed = true;
+        task.done = updatedStatus; // Update the `done` field
         this.toastr.success(response.message);
       },
       error: (error) => {
-        this.toastr.error('Failed to mark task as done. Please try again later.');
+        console.error('Failed to update task status:', error);
+        this.toastr.error('Failed to update task status. Please try again later.');
       },
     });
   }
