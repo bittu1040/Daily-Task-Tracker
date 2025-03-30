@@ -1,18 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input'; 
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TaskService } from '../../services/task.service';
+import { ToastrService } from 'ngx-toastr';
+import { Task } from '../../models/interface';
 
 
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-  createdAt: Date;
-}
+
 
 
 @Component({
@@ -23,20 +21,50 @@ interface Task {
 })
 export class TaskListComponent {
 
-  // tasks: Task[] = [];
-  tasks: Task[] = [ { id: 1, title: 'Task 1', completed: false, createdAt: new Date() } ];
+  taskService = inject(TaskService);
+  toastr = inject(ToastrService);
 
-  toggleTask(task: Task) {
-    task.completed = !task.completed;
-    this.saveTasks();
+  tasks: Task[] = [];
+
+  ngOnInit(): void {
+    this.fetchTasks();  
   }
 
-  deleteTask(task: Task) {
-    this.tasks = this.tasks.filter(t => t.id !== task.id);
-    this.saveTasks();
+  fetchTasks(): void {
+    this.taskService.getTasks().subscribe({
+      next: (tasks) => {
+        this.tasks = tasks;
+      },
+      error: (error) => {
+        this.toastr.error('Failed to load tasks. Please try again later.');
+      },
+    });
   }
 
-  saveTasks() {
+  markAsDone(task: Task): void {
+    this.taskService.markTaskAsDone(task._id).subscribe({
+      next: (response) => {
+        task.completed = true;
+        this.toastr.success(response.message);
+      },
+      error: (error) => {
+        this.toastr.error('Failed to mark task as done. Please try again later.');
+      },
+    });
   }
+
+  deleteTask(task: Task): void {
+    console.log(task);
+    this.taskService.deleteTask(task._id).subscribe({
+      next: (response) => {
+        this.fetchTasks();
+        this.toastr.success(response.message);
+      },
+      error: (error) => {
+        this.toastr.error('Failed to delete task. Please try again later.');
+      },
+    });
+  }
+
 
 }

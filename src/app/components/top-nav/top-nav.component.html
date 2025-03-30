@@ -30,7 +30,7 @@
         <mat-menu #userMenu="matMenu">
           <button mat-menu-item>
             <mat-icon>person</mat-icon>
-            <span>{{userName}} </span>
+            <span>{{commonService.userName()}} </span>
           </button>
           <button mat-menu-item (click)="logout()">
             <mat-icon>logout</mat-icon>

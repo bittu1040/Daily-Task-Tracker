@@ -30,3 +30,12 @@ export interface UserProfile {
   email: string;
   date: string;
 }
+
+
+export interface Task {
+  _id: string; // Matches MongoDB's `_id`
+  title: string;
+  completed: boolean;
+  createdAt: Date;
+  user: string; // User ID associated with the task
+}

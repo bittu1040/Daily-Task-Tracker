@@ -8,4 +8,6 @@ export class CommonService {
   constructor() { }
 
   // isLoggedIn = signal(false);
+
+  userName= signal('');
 }

@@ -19,7 +19,6 @@ type Theme = 'blue' | 'pink' | 'purple';
 })
 export class TopNavComponent {
   currentTheme: Theme = 'blue';
-  userName: string | null = null;
 
   commonService = inject(CommonService);
   authService = inject(AuthService);
@@ -37,7 +36,7 @@ export class TopNavComponent {
     if (this.authService.isLoggedIn()) {
       this.authService.getUserProfile().subscribe({
         next: (profile: UserProfile) => {
-          this.userName = profile.name;
+          this.commonService.userName.set(profile.name);
         },
         error: (error) => {
           console.error('Failed to fetch user profile:', error);
