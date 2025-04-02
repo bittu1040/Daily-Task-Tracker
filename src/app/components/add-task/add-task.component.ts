@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { Task } from '../../models/interface';
 import { TaskService } from '../../services/task.service';
 import { ToastrService } from 'ngx-toastr';
+import { CommonService } from '../../services/common.service';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class AddTaskComponent {
 
   taskService= inject(TaskService);
   toastr = inject(ToastrService);
+  commonService= inject(CommonService)
+
   newTaskTitle: string = '';
   tasks: Task[] = [];
 
@@ -27,8 +30,16 @@ export class AddTaskComponent {
     if (this.newTaskTitle.trim()) {
       this.taskService.addTask(this.newTaskTitle).subscribe({
         next: (task) => {
-          this.tasks.unshift(task); // Add the new task to the top of the list
           this.newTaskTitle = '';
+          this.taskService.getTasks().subscribe({
+            next: (tasks: Task[]) => {
+              this.commonService.tasks.set(tasks); 
+            },
+            error: (error) => {
+              console.error('Failed to load tasks:', error);
+              this.toastr.error('Failed to load tasks. Please try again later.');
+            },
+          });
           this.toastr.success('Task added successfully!');
         },
 

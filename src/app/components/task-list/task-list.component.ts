@@ -8,6 +8,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TaskService } from '../../services/task.service';
 import { ToastrService } from 'ngx-toastr';
 import { Task } from '../../models/interface';
+import { CommonService } from '../../services/common.service';
 
 
 
@@ -22,6 +23,7 @@ import { Task } from '../../models/interface';
 export class TaskListComponent {
 
   taskService = inject(TaskService);
+  commonService= inject(CommonService)
   toastr = inject(ToastrService);
 
   tasks: Task[] = [];
@@ -32,8 +34,8 @@ export class TaskListComponent {
 
   fetchTasks(): void {
     this.taskService.getTasks().subscribe({
-      next: (tasks) => {
-        this.tasks = tasks;
+      next: (tasks:Task[]) => {
+        this.commonService.tasks.set(tasks);
       },
       error: (error) => {
         this.toastr.error('Failed to load tasks. Please try again later.');
