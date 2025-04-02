@@ -31,6 +31,7 @@ export class AddTaskComponent {
       this.taskService.addTask(this.newTaskTitle).subscribe({
         next: (task) => {
           this.newTaskTitle = '';
+          // this.commonService.tasks.update((currentTasks) => [...currentTasks, task]);
           this.taskService.getTasks().subscribe({
             next: (tasks: Task[]) => {
               this.commonService.tasks.set(tasks); 
