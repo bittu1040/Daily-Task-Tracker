@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,10 +9,7 @@ import { TaskService } from '../../services/task.service';
 import { ToastrService } from 'ngx-toastr';
 import { Task } from '../../models/interface';
 import { CommonService } from '../../services/common.service';
-
-
-
-
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -20,56 +17,72 @@ import { CommonService } from '../../services/common.service';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit {
+  private readonly taskService = inject(TaskService);
+  readonly commonService = inject(CommonService);
+  private readonly toastr = inject(ToastrService);
 
-  taskService = inject(TaskService);
-  commonService= inject(CommonService)
-  toastr = inject(ToastrService);
-
-  tasks: Task[] = [];
+  isLoading = false;
 
   ngOnInit(): void {
     this.fetchTasks();  
   }
 
   fetchTasks(): void {
-    this.taskService.getTasks().subscribe({
-      next: (tasks:Task[]) => {
-        this.commonService.tasks.set(tasks);
-      },
-      error: (error) => {
-        this.toastr.error('Failed to load tasks. Please try again later.');
-      },
-    });
+    this.isLoading = true;
+    this.taskService.getTasks()
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (tasks: Task[]) => {
+          this.commonService.tasks.set(tasks);
+        },
+        error: (error) => {
+          console.error('Error fetching tasks:', error);
+          this.toastr.error('Failed to load tasks. Please try again later.');
+        }
+      });
   }
 
-  // Toggle task completion
   toggleTaskCompletion(task: Task): void {
-    const updatedStatus = !task.done; // Use `done` instead of `completed`
+    const updatedStatus = !task.done;
     this.taskService.updateTaskStatus(task._id, updatedStatus).subscribe({
       next: (response) => {
-        task.done = updatedStatus; // Update the `done` field
+        // Update the local task state
+        this.updateLocalTaskStatus(task._id, updatedStatus);
         this.toastr.success(response.message);
       },
       error: (error) => {
         console.error('Failed to update task status:', error);
         this.toastr.error('Failed to update task status. Please try again later.');
-      },
+      }
     });
   }
 
   deleteTask(task: Task): void {
-    console.log(task);
+    if (!confirm('Are you sure you want to delete this task?')) {
+      return;
+    }
+    
     this.taskService.deleteTask(task._id).subscribe({
       next: (response) => {
-        this.fetchTasks();
+        // Remove task from local state instead of refetching all tasks
+        this.removeTaskFromLocalState(task._id);
         this.toastr.success(response.message);
       },
       error: (error) => {
+        console.error('Error deleting task:', error);
         this.toastr.error('Failed to delete task. Please try again later.');
-      },
+      }
     });
   }
 
+  private updateLocalTaskStatus(taskId: string, status: boolean): void {
+    this.commonService.tasks.update(tasks => 
+      tasks.map(t => t._id === taskId ? { ...t, done: status } : t)
+    );
+  }
 
+  private removeTaskFromLocalState(taskId: string): void {
+    this.commonService.tasks.update(tasks => tasks.filter(t => t._id !== taskId));
+  }
 }
