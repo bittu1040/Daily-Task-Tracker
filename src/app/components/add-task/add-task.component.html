@@ -1,33 +1,31 @@
-
-        <mat-card appearance="outlined" class="mb-4">
-            <mat-card-header>
-              <mat-card-title>
-                <div class="d-flex align-items-center">
-                  <mat-icon class="me-2">add_circle</mat-icon>
-                  Add New Task
-                </div>
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="p-3">
-              <div class="input-group">
-                <mat-form-field appearance="outline">
-                  <mat-label>What do you need to do?</mat-label>
-                  <input 
-                    matInput 
-                    [(ngModel)]="newTaskTitle" 
-                    placeholder="Enter your task here"
-                    (keyup.enter)="addTask()"
-                  >
-                  <mat-icon matSuffix>assignment</mat-icon>
-                </mat-form-field>
-              </div>
-            </mat-card-content>
-            <mat-card-actions align="end" class="px-3 pb-3">
-              <button 
-                mat-raised-button 
-                (click)="addTask()"
-              >
-                <mat-icon>add</mat-icon> Add Task
-              </button>
-            </mat-card-actions>
-          </mat-card>
+<mat-card appearance="outlined" class="mb-4">
+  <mat-card-header>
+    <mat-card-title>
+      <div class="d-flex align-items-center">
+        <mat-icon class="me-2">add_circle</mat-icon>
+        Add New Task
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="p-3">
+    <form [formGroup]="taskForm">
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>What do you need to do?</mat-label>
+          <input matInput formControlName="taskTitle" placeholder="Enter your task here" (keyup.enter)="addTask()">
+          <mat-icon matSuffix>assignment</mat-icon>
+          @if (taskForm.get('taskTitle')?.hasError('required')) {
+          <mat-error>
+            Task title is required.
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="end" class="px-3 pb-3">
+    <button mat-raised-button (click)="addTask()" [disabled]="taskForm.invalid">
+      <mat-icon>add</mat-icon> Add Task
+    </button>
+  </mat-card-actions>
+</mat-card>
