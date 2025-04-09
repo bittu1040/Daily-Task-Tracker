@@ -13,6 +13,7 @@ import { NgIf } from '@angular/common';
 import { LoginPayload, RegisterPayload } from '../../models/interface';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -62,10 +63,15 @@ export class LoginComponent {
   }
 
   login() {
-    this.authService.login(this.loginForm).subscribe({
+    this.authService.login(this.loginForm).pipe(
+      switchMap((response) => {
+        this.authService.saveTokens(response.accessToken, response.refreshToken);
+        return this.authService.getUserProfile(); // Fetch user profile after login
+      })
+    )
+    .subscribe({
       next: (response) => {
         this.toastr.success('Login successful!');
-        this.authService.saveTokens(response.accessToken, response.refreshToken);
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {

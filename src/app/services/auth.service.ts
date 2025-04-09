@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { LoginPayload, LoginResponse, refreshTokenResponse, RegisterPayload, RegisterResponse, UserProfile } from '../models/interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class AuthService {
   private refreshTokenKey = 'refreshToken';
 
   http= inject(HttpClient);
+  router= inject(Router);
   constructor() { }
 
   register(user: RegisterPayload): Observable<RegisterResponse> {
@@ -72,5 +74,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.accessTokenKey);
     localStorage.removeItem(this.refreshTokenKey);
+    this.router.navigate(['/login']);
   }
 }

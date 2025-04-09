@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonService } from '../../services/common.service';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserProfile } from '../../models/interface';
@@ -22,7 +21,6 @@ export class TopNavComponent {
 
   commonService = inject(CommonService);
   authService = inject(AuthService);
-  router = inject(Router);
   toastr = inject(ToastrService);
 
 
@@ -49,7 +47,6 @@ export class TopNavComponent {
   logout() {
     this.authService.logout();
     this.toastr.info('You have been logged out.');
-    this.router.navigate(['/login']);
   }
 
   loadTheme() {
