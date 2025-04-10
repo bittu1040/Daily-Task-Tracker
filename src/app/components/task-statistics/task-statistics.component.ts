@@ -4,6 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TaskService } from '../../services/task.service';
+import { CommonService } from '../../services/common.service';
 
 interface Task {
   id: number;
@@ -20,11 +21,10 @@ interface Task {
 })
 export class TaskStatisticsComponent {
 
-  totalTasks: number = 0;
-  completedTasks: number = 0;
-  pendingTasks: number = 0;
 
-  taskService= inject(TaskService)
+
+  taskService= inject(TaskService);
+  commonService= inject(CommonService);
 
   ngOnInit(): void {  
     this.fetchTaskStatistics();
@@ -33,10 +33,9 @@ export class TaskStatisticsComponent {
   fetchTaskStatistics(): void {
     this.taskService.getTaskStatistics().subscribe({
       next: (stats) => {
-        console.log('Task statistics fetched:', stats);
-        this.totalTasks = stats.total;
-        this.completedTasks = stats.done;
-        this.pendingTasks = stats.pending;
+        this.commonService.totalTasks.set(stats.total);
+        this.commonService.completedTasks.set(stats.done);
+        this.commonService.pendingTasks.set(stats.pending);
       },
       error: (error) => {
         console.error('Failed to fetch task statistics:', error);

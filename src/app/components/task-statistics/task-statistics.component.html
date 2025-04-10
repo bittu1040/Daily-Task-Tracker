@@ -13,7 +13,7 @@
           <div class="stat-card bg-primary bg-opacity-10 p-2 text-center">
             <mat-icon class="text-primary">format_list_bulleted</mat-icon>
             <div class="mt-1">
-              <h6 class="mb-0">{{ totalTasks }}</h6>
+              <h6 class="mb-0">{{ this.commonService.totalTasks() }}</h6>
               <small class="text-muted">Total</small>
             </div>
           </div>
@@ -22,7 +22,7 @@
           <div class="stat-card bg-success bg-opacity-10 p-2 text-center">
             <mat-icon class="text-success">check_circle</mat-icon>
             <div class="mt-1">
-              <h6 class="mb-0">{{ completedTasks }}</h6>
+              <h6 class="mb-0">{{ this.commonService.completedTasks() }}</h6>
               <small class="text-muted">Done</small>
             </div>
           </div>
@@ -31,7 +31,7 @@
           <div class="stat-card bg-warning bg-opacity-10 p-2 text-center">
             <mat-icon class="text-warning">hourglass_empty</mat-icon>
             <div class="mt-1">
-              <h6 class="mb-0">{{ pendingTasks }}</h6>
+              <h6 class="mb-0">{{ this.commonService.pendingTasks() }}</h6>
               <small class="text-muted">Pending</small>
             </div>
           </div>

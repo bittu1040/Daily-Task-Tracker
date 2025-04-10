@@ -35,6 +35,12 @@ export class AddTaskComponent {
       this.taskService.addTask(this.taskForm.value.taskTitle).subscribe({
         next: (task) => {
           this.commonService.tasks.update((currentTasks) => [...currentTasks, task]);
+          this.commonService.totalTasks.update((total) => total + 1);
+          if (task.done) {
+            this.commonService.completedTasks.update((completed) => completed + 1);
+          } else {
+            this.commonService.pendingTasks.update((pending) => pending + 1);
+          }
           this.taskForm.reset();
           this.toastr.success('Task added successfully!');
         },

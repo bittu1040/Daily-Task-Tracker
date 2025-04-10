@@ -49,6 +49,13 @@ export class TaskListComponent implements OnInit {
       next: (response) => {
         // Update the local task state
         this.updateLocalTaskStatus(task._id, updatedStatus);
+      if (updatedStatus) {
+        this.commonService.completedTasks.update((completed) => completed + 1);
+        this.commonService.pendingTasks.update((pending) => pending - 1);
+      } else {
+        this.commonService.completedTasks.update((completed) => completed - 1);
+        this.commonService.pendingTasks.update((pending) => pending + 1);
+      }
         this.toastr.success(response.message);
       },
       error: (error) => {
@@ -67,6 +74,12 @@ export class TaskListComponent implements OnInit {
       next: (response) => {
         // Remove task from local state instead of refetching all tasks
         this.removeTaskFromLocalState(task._id);
+        this.commonService.totalTasks.update((total) => total - 1);
+        if (task.done) {
+          this.commonService.completedTasks.update((completed) => completed - 1);
+        } else {
+          this.commonService.pendingTasks.update((pending) => pending - 1);
+        }
         this.toastr.success(response.message);
       },
       error: (error) => {
