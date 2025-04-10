@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,7 @@ type Theme = 'blue' | 'pink' | 'purple';
   templateUrl: './top-nav.component.html',
   styleUrl: './top-nav.component.scss'
 })
-export class TopNavComponent {
+export class TopNavComponent implements OnInit {
   currentTheme: Theme = 'blue';
 
   commonService = inject(CommonService);
@@ -26,6 +26,9 @@ export class TopNavComponent {
 
   constructor() {
     this.loadTheme();
+  };
+
+  ngOnInit() {
     this.getProfile();
   }
 

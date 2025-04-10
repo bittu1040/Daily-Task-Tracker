@@ -64,13 +64,14 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.loginForm).pipe(
-      switchMap((response) => {
-        this.authService.saveTokens(response.accessToken, response.refreshToken);
+      switchMap((loginResponse) => {
+        this.authService.saveTokens(loginResponse.accessToken, loginResponse.refreshToken);
         return this.authService.getUserProfile(); // Fetch user profile after login
       })
     )
     .subscribe({
-      next: (response) => {
+      next: (profile) => {
+        this.commonService.userName.set(profile.name);
         this.toastr.success('Login successful!');
         this.router.navigate(['/dashboard']);
       },
