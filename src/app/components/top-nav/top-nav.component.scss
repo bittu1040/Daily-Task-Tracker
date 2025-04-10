@@ -5,8 +5,8 @@
 }
 
 
-.navbar-brand {
-    @media (max-width: 350px) {
+@media (max-width: 350px) {
+    .navbar-brand {
         margin-right: 0px !important;
     }
 }
