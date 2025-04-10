@@ -3,3 +3,10 @@
     cursor: pointer;
     margin-left: 10px;  
 }
+
+
+.navbar-brand {
+    @media (max-width: 350px) {
+        margin-right: 0px !important;
+    }
+}

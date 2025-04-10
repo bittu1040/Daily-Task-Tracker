@@ -39,3 +39,9 @@ export interface Task {
   createdAt: Date;
   user: string; // User ID associated with the task
 }
+
+export interface TaskStatistics {
+  total: number;
+  done: number;
+  pending: number;
+}

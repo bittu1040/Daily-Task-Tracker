@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TaskService } from '../../services/task.service';
 
 interface Task {
   id: number;
@@ -19,14 +20,28 @@ interface Task {
 })
 export class TaskStatisticsComponent {
 
-  tasks: Task[] = [ { id: 1, title: 'Task 1', completed: false, createdAt: new Date() } ];
+  totalTasks: number = 0;
+  completedTasks: number = 0;
+  pendingTasks: number = 0;
 
-  get completedTasks(): number {
-    return this.tasks.filter(task => task.completed).length;
+  taskService= inject(TaskService)
+
+  ngOnInit(): void {  
+    this.fetchTaskStatistics();
   }
 
-  get pendingTasks(): number {
-    return this.tasks.filter(task => !task.completed).length;
+  fetchTaskStatistics(): void {
+    this.taskService.getTaskStatistics().subscribe({
+      next: (stats) => {
+        console.log('Task statistics fetched:', stats);
+        this.totalTasks = stats.total;
+        this.completedTasks = stats.done;
+        this.pendingTasks = stats.pending;
+      },
+      error: (error) => {
+        console.error('Failed to fetch task statistics:', error);
+      },
+    });
   }
 
 }

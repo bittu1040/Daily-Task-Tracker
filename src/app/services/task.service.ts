@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Task } from '../models/interface';
+import { Task, TaskStatistics } from '../models/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +30,9 @@ export class TaskService {
   // Delete a task
   deleteTask(taskId: string): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.baseUrl}/delete/${taskId}`);
+  }
+
+  getTaskStatistics(): Observable<TaskStatistics> {
+    return this.http.get<TaskStatistics>(`${this.baseUrl}/stats`);
   }
 }
