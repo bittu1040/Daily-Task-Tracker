@@ -95,6 +95,12 @@ body.theme-purple {
   background-color: var(--primary-color) !important;
 }
 
+.badge{
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  margin-left: 5px;
+}
+
 .theme-selector {
   display: flex;
   gap: 10px;
