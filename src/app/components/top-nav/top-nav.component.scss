@@ -5,8 +5,13 @@
 }
 
 
-@media (max-width: 350px) {
+@media (max-width: 360px) {
     .navbar-brand {
         margin-right: 0px !important;
     }
+
+    .user-menu {
+        font-size: 1rem;
+    }
+    
 }

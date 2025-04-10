@@ -109,6 +109,12 @@ body.theme-purple {
   border: 2px solid #fff;
   transition: transform 0.2s;
 }
+@media (max-width: 360px) {
+  .theme-option {
+    width: 20px;
+    height: 20px;
+  }
+}
 
 .theme-option:hover, .theme-option.active {
   transform: scale(1.1);
