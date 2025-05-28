@@ -1,6 +1,6 @@
-@import './styles/variables-and-themes';
-@import './styles/overrides';
-@import './styles/components-and-utilities';
+@use 'styles/variables-and-themes';
+@use 'styles/overrides';
+@use 'styles/components-and-utilities';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
