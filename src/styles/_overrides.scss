@@ -1,0 +1,39 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Bootstrap Overrides */
+.navbar {
+  background-color: var(--primary-color) !important;
+}
+.btn-primary, .bg-primary {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.badge {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  margin-left: 5px;
+}
+
+.btn-success {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+/* Angular Material Overrides */
+.mat-mdc-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+}
+.mat-mdc-form-field {
+  width: 100%;
+}
+.mat-mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.mat-mdc-raised-button:not(:disabled) {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}

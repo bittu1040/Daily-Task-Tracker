@@ -1,0 +1,40 @@
+/* Default Theme Variables */
+:root {
+  --primary-color: #3f51b5;
+  --accent-color: #ff4081;
+  --warn-color: #f44336;
+  --background-color: #f8f9fa;
+  --card-background: #ffffff;
+  --text-color: #212529;
+  --border-color: #dee2e6;
+}
+
+/* Blue Theme */
+body.theme-blue {
+  --primary-color: #1976d2;
+  --accent-color: #03a9f4;
+  --background-color: #e3f2fd;
+  --card-background: #ffffff;
+  --text-color: #0d47a1;
+  --border-color: #bbdefb;
+}
+
+/* Pink Theme */
+body.theme-pink {
+  --primary-color: #e91e63;
+  --accent-color: #f48fb1;
+  --background-color: #fce4ec;
+  --card-background: #ffffff;
+  --text-color: #880e4f;
+  --border-color: #f8bbd0;
+}
+
+/* Purple Theme */
+body.theme-purple {
+  --primary-color: #673ab7;
+  --accent-color: #b39ddb;
+  --background-color: #ede7f6;
+  --card-background: #ffffff;
+  --text-color: #4a148c;
+  --border-color: #d1c4e9;
+}

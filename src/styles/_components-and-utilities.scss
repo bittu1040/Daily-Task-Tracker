@@ -1,0 +1,111 @@
+/* Global */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  transition: background-color 0.3s ease;
+}
+
+/* Component Styles */
+.card, .card-header {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+}
+.task-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.task-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.completed-task {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+.stat-card {
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+.stat-card:hover {
+  transform: scale(1.03);
+}
+.summary-content {
+  border-left: 4px solid var(--primary-color);
+}
+
+/* Theme Selector */
+.theme-selector {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.theme-option {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  transition: transform 0.2s;
+}
+@media (max-width: 360px) {
+  .theme-option {
+    width: 20px;
+    height: 20px;
+  }
+}
+.theme-option:hover,
+.theme-option.active {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px #fff;
+}
+.theme-blue-option { background-color: #1976d2; }
+.theme-pink-option { background-color: #e91e63; }
+.theme-purple-option { background-color: #673ab7; }
+
+/* Task List */
+.add-task-input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.add-task-btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.task-item {
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+.task-item:hover {
+  border-left-color: var(--primary-color);
+}
+.task-item.completed {
+  border-left-color: #198754;
+}
+
+/* Misc */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+.empty-state {
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  border: 2px dashed var(--border-color);
+  border-radius: 10px;
+}
+mat-card {
+  min-height: 218px;
+}
