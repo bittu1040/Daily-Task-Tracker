@@ -14,10 +14,11 @@ import { LoginPayload, RegisterPayload } from '../../models/interface';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs';
+import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-login',
-  imports: [    MatIconModule,
+  imports: [MatIconModule,
     MatMenuModule,
     MatButtonModule,
     MatCardModule,
@@ -25,16 +26,18 @@ import { switchMap } from 'rxjs';
     MatInputModule,
     FormsModule,
     MatDividerModule,
-  NgIf],
+    NgIf],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
   commonService = inject(CommonService);
-  authService = inject(AuthService);
+  // authService = inject(AuthService);
   router = inject(Router);
-  toastr= inject(ToastrService);
+  toastr = inject(ToastrService);
+  supabaseService = inject(SupabaseService);
+
 
   isRegistering = false;
 
@@ -61,7 +64,50 @@ export class LoginComponent {
       name: ''
     };
   }
+  login() {
+    this.supabaseService.login(this.loginForm).pipe(
+      switchMap((loginResponse: any) => {
+        this.supabaseService.saveTokens(loginResponse.access_token, loginResponse.refresh_token);
+        return this.supabaseService.getUserProfile();
+      })
+    ).subscribe({
+      next: (profile: any) => {
+        this.commonService.userName.set(profile.user.name || profile.user.email);
+        console.log('User profile loaded:', profile);
+        this.toastr.success('Login successful!');
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Login failed. Please check your credentials.');
+      }
+    });
+  }
 
+  register() {
+    const payload = {
+      email: this.registerForm.email,
+      password: this.registerForm.password,
+      name: this.registerForm.name
+    };
+
+    this.supabaseService.register(payload).subscribe({
+      next: (response: any) => {
+        this.toastr.success('Registration successful. Please verify your email.');
+        this.toggleRegister();
+      },
+      error: () => {
+        this.toastr.error('Registration failed. Try again.');
+      }
+    });
+  }
+
+  // signInWithGoogle() {
+  //   this.supabase.signInWithGoogle();
+  // }
+
+
+  /*
   login() {
     this.authService.login(this.loginForm).pipe(
       switchMap((loginResponse) => {
@@ -93,5 +139,6 @@ export class LoginComponent {
       }
     );
   }
+*/
 
 }

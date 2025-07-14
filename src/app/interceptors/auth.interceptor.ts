@@ -2,32 +2,35 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { catchError, switchMap, throwError } from 'rxjs';
+import { SupabaseService } from '../services/supabase.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const supabaseService = inject(SupabaseService);
+  const accessToken = supabaseService.getAccessToken();
 
-  const authService = inject(AuthService);
-  const accessToken = authService.getAccessToken();
+  const authReq = accessToken
+    ? req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+    : req;
 
-  const clonedRequest = req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-  return next(clonedRequest).pipe(
+  return next(authReq).pipe(
     catchError((error) => {
-      if (error.status === 401 && authService.getAccessToken()) {
-        return authService.refreshToken().pipe(
-          switchMap((newTokens) => {
-            const retryRequest = req.clone({
+      if (error.status === 401 && accessToken) {
+        return supabaseService.refreshToken().pipe(
+          switchMap((newTokens:any) => {
+            supabaseService.saveTokens(newTokens.access_token, newTokens.refresh_token);
+            const retryReq = req.clone({
               setHeaders: {
-                Authorization: `Bearer ${newTokens.accessToken}`
+                Authorization: `Bearer ${newTokens.access_token}`
               }
             });
-            return next(retryRequest);
+            return next(retryReq);
           }),
           catchError((refreshError) => {
-            // If refreshing the token fails, log the user out
-            authService.logout();
+            supabaseService.logout();
             return throwError(() => refreshError);
           })
         );
@@ -35,4 +38,4 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       return throwError(() => error);
     })
   );
-};  
+};

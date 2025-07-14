@@ -7,6 +7,7 @@ import { CommonService } from '../../services/common.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserProfile } from '../../models/interface';
+import { SupabaseService } from '../../services/supabase.service';
 
 type Theme = 'blue' | 'pink' | 'purple';
 
@@ -20,7 +21,8 @@ export class TopNavComponent implements OnInit {
   currentTheme: Theme = 'blue';
 
   commonService = inject(CommonService);
-  authService = inject(AuthService);
+  // authService = inject(AuthService);
+  supabaseService = inject(SupabaseService);
   toastr = inject(ToastrService);
 
 
@@ -28,27 +30,30 @@ export class TopNavComponent implements OnInit {
     this.loadTheme();
   };
 
-  ngOnInit() {
-    this.getProfile();
+  ngOnInit(): void {
+    this.loadUserProfile();
   }
 
+  get isLoggedIn(): boolean {
+    return !!this.supabaseService.getAccessToken();
+  }
 
-  getProfile(){
-    if (this.authService.isLoggedIn()) {
-      this.authService.getUserProfile().subscribe({
-        next: (profile: UserProfile) => {
-          this.commonService.userName.set(profile.name);
+  loadUserProfile(): void {
+    if (this.isLoggedIn) {
+      this.supabaseService.getUserProfile().subscribe({
+        next: (profile:any) => {
+          this.commonService.userName.set(profile.user.name || profile.user.email);
+          console.log('User profile loaded:', profile);
         },
-        error: (error) => {
-          console.error('Failed to fetch user profile:', error);
-        },
+        error: (err) => {
+          console.error('Failed to load user profile:', err);
+        }
       });
     }
   }
 
-
-  logout() {
-    this.authService.logout();
+  logout(): void {
+    this.supabaseService.logout();
     this.toastr.info('You have been logged out.');
   }
 
