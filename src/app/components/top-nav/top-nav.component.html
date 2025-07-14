@@ -24,7 +24,7 @@
           matTooltip="Light Purple Theme">
         </div>
 
-        <span class="navbar-brand user-menu" *ngIf="isLoggedIn" [matMenuTriggerFor]="userMenu">
+        <span class="navbar-brand user-menu" *ngIf="this.supabaseService.isLoggedIn()" [matMenuTriggerFor]="userMenu">
           <i class="bi bi-person-circle"></i>
         </span>
         <mat-menu #userMenu="matMenu">

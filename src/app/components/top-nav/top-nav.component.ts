@@ -34,12 +34,9 @@ export class TopNavComponent implements OnInit {
     this.loadUserProfile();
   }
 
-  get isLoggedIn(): boolean {
-    return !!this.supabaseService.getAccessToken();
-  }
 
   loadUserProfile(): void {
-    if (this.isLoggedIn) {
+    if (this.supabaseService.isLoggedIn()) {
       this.supabaseService.getUserProfile().subscribe({
         next: (profile:any) => {
           this.commonService.userName.set(profile.user.name || profile.user.email);

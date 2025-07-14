@@ -102,9 +102,9 @@ export class LoginComponent {
     });
   }
 
-  // signInWithGoogle() {
-  //   this.supabase.signInWithGoogle();
-  // }
+  signInWithGoogle() {
+    this.supabaseService.signInWithGoogle();
+  }
 
 
   /*
