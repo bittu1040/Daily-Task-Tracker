@@ -13,7 +13,7 @@ import { NgIf } from '@angular/common';
 import { LoginPayload, RegisterPayload } from '../../models/interface';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { switchMap } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
@@ -65,11 +65,13 @@ export class LoginComponent {
     };
   }
   login() {
+    this.commonService.isLoading.set(true);
     this.supabaseService.login(this.loginForm).pipe(
       switchMap((loginResponse: any) => {
         this.supabaseService.saveTokens(loginResponse.access_token, loginResponse.refresh_token);
         return this.supabaseService.getUserProfile();
-      })
+      }), 
+      finalize(() => this.commonService.isLoading.set(false))
     ).subscribe({
       next: (profile: any) => {
         this.commonService.userName.set(profile.user.name || profile.user.email);
