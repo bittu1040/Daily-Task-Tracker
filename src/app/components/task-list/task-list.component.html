@@ -1,14 +1,17 @@
 <mat-card appearance="outlined">
     <mat-card-header>
-        <mat-card-title>
-            <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex justify-content-between w-100 align-items-center">
                 <div>
-                    <mat-icon class="me-2 text-primary">list</mat-icon>
-                    My Tasks
+                    My Tasks : <span class="badge rounded-pill">{{ commonService.tasks().length }}</span>
                 </div>
-                <span class="badge rounded-pill">{{ commonService.tasks().length }}</span>
+                <div class="d-flex align-items-center">
+                    <input type="text" class="form-control form-control-sm me-2" style="max-width: 140px;"
+                        [(ngModel)]="taskFilter" placeholder="Filter..." />
+                    <button mat-icon-button (click)="exportTasks()" matTooltip="Export tasks">
+                        <mat-icon>file_download</mat-icon>
+                    </button>
+                </div>
             </div>
-        </mat-card-title>
     </mat-card-header>
     <mat-card-content class="p-3">
         <mat-divider></mat-divider>
