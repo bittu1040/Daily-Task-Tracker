@@ -54,6 +54,13 @@ export class TaskListComponent implements OnInit {
       });
   }
 
+  get filteredTasks(): Task[] {
+    const filter = this.taskFilter?.toLowerCase().trim();
+    return this.commonService.tasks().filter(task =>
+      task.title.toLowerCase().includes(filter)
+    );
+  }
+
   toggleTaskCompletion(task: Task): void {
     const updatedStatus = !task.done;
     this.taskService.updateTaskStatus(task._id, updatedStatus).subscribe({
