@@ -10,10 +10,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Task } from '../../models/interface';
 import { CommonService } from '../../services/common.service';
 import { finalize } from 'rxjs';
+import { NgxLoadingModule , ngxLoadingAnimationTypes} from 'ngx-loading';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, MatDividerModule, MatCheckboxModule],
+  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, MatDividerModule, MatCheckboxModule,NgxLoadingModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
@@ -23,6 +24,9 @@ export class TaskListComponent implements OnInit {
   private readonly toastr = inject(ToastrService);
 
   isLoading = false;
+  // primaryColor = '#007bff';
+  // secondaryColor = '#6c757d';
+  loadingAnimationTypes = ngxLoadingAnimationTypes.wanderingCubes;
 
   ngOnInit(): void {
     this.fetchTasks();  
@@ -66,6 +70,7 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(task: Task): void {
+    this.isLoading = true;
     if (!confirm('Are you sure you want to delete this task?')) {
       return;
     }
@@ -80,10 +85,12 @@ export class TaskListComponent implements OnInit {
         } else {
           this.commonService.pendingTasks.update((pending) => pending - 1);
         }
+        this.isLoading = false;
         this.toastr.success(response.message);
       },
       error: (error) => {
         console.error('Error deleting task:', error);
+        this.isLoading = false;
         this.toastr.error('Failed to delete task. Please try again later.');
       }
     });

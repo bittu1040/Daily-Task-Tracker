@@ -5,6 +5,7 @@ import { TaskSummaryComponent } from '../task-summary/task-summary.component';
 import { TaskStatisticsComponent } from '../task-statistics/task-statistics.component';
 import { CommonService } from '../../services/common.service';
 import { TitleCasePipe } from '@angular/common';
+import { NgxLoadingModule } from "ngx-loading";
 
 @Component({
   selector: 'app-dashboard',
