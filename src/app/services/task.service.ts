@@ -25,7 +25,7 @@ export class TaskService {
 
   // Mark a task as done or not done
   updateTaskStatus(taskId: string, done: boolean): Observable<{ message: string; task: Task }> {
-    return this.http.patch<{ message: string; task: Task }>(`${environment.apiBaseUrl}/done/${taskId}`, { done });
+    return this.http.patch<{ message: string; task: Task }>(`${environment.apiBaseUrl}/task/done/${taskId}`, { done });
   }
 
   // Delete a task

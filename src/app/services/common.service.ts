@@ -12,6 +12,7 @@ export class CommonService {
 
   userName= signal('');
   tasks= signal<Task[]>([]);
+  isLoading = signal<boolean>(false);
 
   totalTasks = signal(0);
   completedTasks = signal(0);

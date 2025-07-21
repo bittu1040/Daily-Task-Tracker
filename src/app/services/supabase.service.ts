@@ -7,23 +7,35 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
-
   router = inject(Router);
   http = inject(HttpClient);
   private supabase: SupabaseClient;
 
   constructor() {
-    this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
+    this.supabase = createClient(
+      environment.supabaseUrl,
+      environment.supabaseAnonKey
+    );
   }
 
-  register({ email, password, name }: { email: string, password: string, name: string }) {
-    return from(this.supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name }
-      }
-    }));
+  register({
+    email,
+    password,
+    name,
+  }: {
+    email: string;
+    password: string;
+    name: string;
+  }) {
+    return from(
+      this.supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name },
+        },
+      })
+    );
 
     // return this.http.post(`${environment.supabaseUrl}/auth/v1/signup`, body, {
     //   headers: {
@@ -41,6 +53,18 @@ export class SupabaseService {
     );
   }
 
+  signInWithGoogle() {
+    return this.supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/login/callback`,
+      },
+    });
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getAccessToken();
+  }
 
   getUserProfile() {
     return this.http.get<{ name: string, email: string }>(`${environment.apiBaseUrl}/v1/profile`);
@@ -72,6 +96,10 @@ export class SupabaseService {
       { refresh_token },
       { headers: { apikey: environment.supabaseAnonKey } }
     );
+  }
+
+  getSession() {
+    return from(this.supabase.auth.getSession());
   }
 
   logout() {

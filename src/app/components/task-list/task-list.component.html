@@ -5,20 +5,23 @@
     [config]="{ backdropBorderRadius: '3px' , fullScreenBackdrop : false , animationType: loadingAnimationTypes}">
     </ngx-loading>
     <mat-card-header>
-        <mat-card-title>
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <mat-icon class="me-2 text-primary">list</mat-icon>
-                    My Tasks
-                </div>
-                <span class="badge rounded-pill">{{ commonService.tasks().length }}</span>
+        <div class="d-flex justify-content-between w-100 align-items-center">
+            <div>
+                Total Tasks : <span class="badge rounded-pill">{{ commonService.tasks().length }}</span>
             </div>
-        </mat-card-title>
+            <div class="d-flex align-items-center">
+                <input type="text" class="form-control form-control-sm me-2" style="max-width: 140px;"
+                    [(ngModel)]="taskFilter" placeholder="Filter..." [disabled]="commonService.tasks().length === 0" />
+                <button mat-icon-button (click)="exportTasks()" matTooltip="Export tasks" [disabled]="commonService.tasks().length === 0">
+                    <mat-icon>file_download</mat-icon>
+                </button>
+            </div>
+        </div>
     </mat-card-header>
     <mat-card-content class="p-3">
         <mat-divider></mat-divider>
         <div class="list-group list-group-flush">
-            @for (task of commonService.tasks(); track $index) {
+            @for (task of filteredTasks; track $index) {
             <div class="list-group-item task-item p-3" [class.completed]="task.done">
                 <div class="d-flex align-items-center">
                     <mat-checkbox [checked]="task.done" (change)="toggleTaskCompletion(task)" color="primary">
@@ -29,6 +32,12 @@
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
+            </div>
+            }
+            @if (filteredTasks.length === 0 && taskFilter.trim()) {
+            <div class="text-center text-muted py-3">
+                <mat-icon class="mb-1">search_off</mat-icon>
+                <div>No matching tasks found.</div>
             </div>
             }
         </div>
