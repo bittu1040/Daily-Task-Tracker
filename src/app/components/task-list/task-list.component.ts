@@ -10,11 +10,21 @@ import { ToastrService } from 'ngx-toastr';
 import { Task } from '../../models/interface';
 import { CommonService } from '../../services/common.service';
 import { finalize } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 import { NgxLoadingModule , ngxLoadingAnimationTypes} from 'ngx-loading';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, MatDividerModule, MatCheckboxModule,NgxLoadingModule],
+  imports: [
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatCheckboxModule,
+    FormsModule,
+    NgxLoadingModule
+  ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
 })
@@ -24,8 +34,7 @@ export class TaskListComponent implements OnInit {
   private readonly toastr = inject(ToastrService);
 
   isLoading = false;
-
-  loadingAnimationTypes = ngxLoadingAnimationTypes.wanderingCubes;
+  taskFilter: any;
 
   ngOnInit(): void {
     this.fetchTasks();

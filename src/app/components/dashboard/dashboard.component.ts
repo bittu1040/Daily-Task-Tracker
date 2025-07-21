@@ -9,7 +9,7 @@ import { NgxLoadingModule } from "ngx-loading";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [AddTaskComponent, TaskListComponent, TaskSummaryComponent, TaskStatisticsComponent, TitleCasePipe],
+  imports: [AddTaskComponent, TaskListComponent, TaskSummaryComponent, TaskStatisticsComponent, TitleCasePipe , NgxLoadingModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
