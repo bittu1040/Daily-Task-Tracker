@@ -11,7 +11,7 @@ import { Task } from '../../models/interface';
 import { CommonService } from '../../services/common.service';
 import { finalize } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { NgxLoadingModule , ngxLoadingAnimationTypes} from 'ngx-loading';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-task-list',
@@ -34,7 +34,8 @@ export class TaskListComponent implements OnInit {
   private readonly toastr = inject(ToastrService);
 
   isLoading = false;
-  taskFilter: any;
+  taskFilter: string = '';
+  loadingAnimationTypes = ngxLoadingAnimationTypes.cubeGrid;
 
   ngOnInit(): void {
     this.fetchTasks();
@@ -48,8 +49,10 @@ export class TaskListComponent implements OnInit {
       .subscribe({
         next: (tasks: Task[]) => {
           this.commonService.tasks.set(tasks);
+          this.isLoading = false;
         },
         error: (error) => {
+          this.isLoading = false;
           console.error('Error fetching tasks:', error);
           this.toastr.error('Failed to load tasks. Please try again later.');
         },

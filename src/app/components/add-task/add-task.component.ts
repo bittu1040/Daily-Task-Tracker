@@ -49,6 +49,8 @@ export class AddTaskComponent {
           this.toastr.success('Task added successfully!');
         },
         error: (error) => {
+          this.isLoading = false;
+          this.commonService.isLoading.set(false);
           console.error('Failed to add task:', error);
           this.toastr.error('Failed to add task. Please try again later.');
         },

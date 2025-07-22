@@ -6,10 +6,10 @@ import { TaskStatisticsComponent } from '../task-statistics/task-statistics.comp
 import { CommonService } from '../../services/common.service';
 import { TitleCasePipe } from '@angular/common';
 import { NgxLoadingModule } from "ngx-loading";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-dashboard',
-  imports: [AddTaskComponent, TaskListComponent, TaskSummaryComponent, TaskStatisticsComponent, TitleCasePipe , NgxLoadingModule],
+  imports: [AddTaskComponent, TaskListComponent, TaskSummaryComponent, TaskStatisticsComponent, TitleCasePipe , NgxLoadingModule, MatProgressSpinnerModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
