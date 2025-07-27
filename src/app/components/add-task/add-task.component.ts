@@ -9,10 +9,11 @@ import { Task } from '../../models/interface';
 import { TaskService } from '../../services/task.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../services/common.service';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-add-task',
-  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, MatDividerModule],
+  imports: [MatCardModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, MatDividerModule,NgxLoadingModule],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
@@ -23,6 +24,7 @@ export class AddTaskComponent {
   
   taskForm: FormGroup;
   tasks: Task[] = [];
+  isLoading = false;
 
   constructor(private fb: FormBuilder) {
     this.taskForm = this.fb.group({
@@ -32,6 +34,7 @@ export class AddTaskComponent {
 
   addTask(): void {
     if (this.taskForm.valid) {
+      this.isLoading = true;
       this.taskService.addTask(this.taskForm.value.taskTitle).subscribe({
         next: (task) => {
           this.commonService.tasks.update((currentTasks) => [...currentTasks, task]);
@@ -41,10 +44,13 @@ export class AddTaskComponent {
           } else {
             this.commonService.pendingTasks.update((pending) => pending + 1);
           }
+          this.isLoading = false;
           this.taskForm.reset();
           this.toastr.success('Task added successfully!');
         },
         error: (error) => {
+          this.isLoading = false;
+          this.commonService.isLoading.set(false);
           console.error('Failed to add task:', error);
           this.toastr.error('Failed to add task. Please try again later.');
         },

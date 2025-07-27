@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +15,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, switchMap } from 'rxjs';
 import { SupabaseService } from '../../services/supabase.service';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ import { SupabaseService } from '../../services/supabase.service';
     MatInputModule,
     FormsModule,
     MatDividerModule,
-    NgIf],
+    NgIf,NgxLoadingModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -40,6 +41,7 @@ export class LoginComponent {
 
 
   isRegistering = false;
+  isLoading = false;
 
   loginForm: LoginPayload = {
     email: '',
@@ -51,6 +53,11 @@ export class LoginComponent {
     password: '',
     name: ''
   };
+  
+  hide = true;
+  togglePasswordVisibility() {
+    this.hide = !this.hide;
+  }
 
   toggleRegister() {
     this.isRegistering = !this.isRegistering;
@@ -65,6 +72,7 @@ export class LoginComponent {
     };
   }
   login() {
+    this.isLoading = true;
     this.commonService.isLoading.set(true);
     this.supabaseService.login(this.loginForm).pipe(
       switchMap((loginResponse: any) => {
@@ -75,12 +83,14 @@ export class LoginComponent {
     ).subscribe({
       next: (profile: any) => {
         this.commonService.userName.set(profile.user.name || profile.user.email);
+        this.isLoading = false;
         console.log('User profile loaded:', profile);
         this.toastr.success('Login successful!');
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         console.error(err);
+        this.isLoading = false;
         this.toastr.error('Login failed. Please check your credentials.');
       }
     });

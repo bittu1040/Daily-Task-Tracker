@@ -69,7 +69,7 @@ export class SupabaseService {
   getUserProfile() {
     return this.http.get<{ name: string, email: string }>(`${environment.apiBaseUrl}/v1/profile`);
   }
-
+  
   saveTokens(accessToken: string, refreshToken: string) {
     localStorage.setItem('supabase.auth.token', JSON.stringify({
       currentSession: {
