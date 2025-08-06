@@ -1,4 +1,9 @@
 <mat-card appearance="outlined">
+    <ngx-loading
+    [show]="isLoading"
+    [config]="{ backdropBorderRadius: '2px' }">
+    </ngx-loading>
+
   <mat-card-header>
     <mat-card-title>
       <div class="d-flex align-items-center">

@@ -1,4 +1,12 @@
 <div class="landing-page">
+
+    <ngx-loading
+      [show]="isLoading"
+      [config]="{ backdropBorderRadius: '3px'}"
+      >
+    </ngx-loading>
+
+
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-8 text-center mb-5">
@@ -52,11 +60,13 @@
                     matInput 
                     [(ngModel)]="loginForm.password" 
                     name="password"
-                    type="password" 
+                    [type]="hide ? 'password' : 'text'" 
                     placeholder="Enter your password"
                     required
                   >
-                  <mat-icon matSuffix>lock</mat-icon>
+                  <!-- <mat-icon matSuffix>lock</mat-icon> -->
+                  <mat-icon   (click)="togglePasswordVisibility()"  matSuffix>{{hide? 'visibility_off' : 'visibility'}}</mat-icon>
+                  
                 </mat-form-field>
                 
                 <button 
@@ -69,7 +79,7 @@
                 </button>
 
                 <mat-divider class="my-4"></mat-divider>
-
+                <div id="google-btn" class="w-100 mb-3">
                 <button 
                   mat-stroked-button 
                   color="primary" 
@@ -81,7 +91,7 @@
                 <!-- <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="Google" class="google-icon">  -->
                  Sign in with Google
                 </button>
-
+                </div>
                 <div class="text-center mt-3">
                     <p class="mb-0">Don't have an account?</p>
                     <button 
@@ -128,11 +138,12 @@
                     matInput 
                     [(ngModel)]="registerForm.password" 
                     name="password"
-                    type="password" 
+                    [type]="hide ? 'password' : 'text'" 
                     placeholder="Create a password"
                     required
                   >
-                  <mat-icon matSuffix>lock</mat-icon>
+                  <!-- <mat-icon matSuffix>lock</mat-icon> -->
+                  <mat-icon (click)="togglePasswordVisibility()" matSuffix>{{hide? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
 
                 <!-- <mat-form-field appearance="outline" class="w-100 mb-3">

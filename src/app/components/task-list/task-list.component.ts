@@ -11,6 +11,7 @@ import { Task } from '../../models/interface';
 import { CommonService } from '../../services/common.service';
 import { finalize } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-task-list',
@@ -22,6 +23,7 @@ import { FormsModule } from '@angular/forms';
     MatDividerModule,
     MatCheckboxModule,
     FormsModule,
+    NgxLoadingModule
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
@@ -33,6 +35,7 @@ export class TaskListComponent implements OnInit {
 
   isLoading = false;
   taskFilter: string = '';
+  loadingAnimationTypes = ngxLoadingAnimationTypes.cubeGrid;
 
   ngOnInit(): void {
     this.fetchTasks();
@@ -46,8 +49,10 @@ export class TaskListComponent implements OnInit {
       .subscribe({
         next: (tasks: Task[]) => {
           this.commonService.tasks.set(tasks);
+          this.isLoading = false;
         },
         error: (error) => {
+          this.isLoading = false;
           console.error('Error fetching tasks:', error);
           this.toastr.error('Failed to load tasks. Please try again later.');
         },
@@ -90,6 +95,7 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(task: Task): void {
+    this.isLoading = true;
     if (!confirm('Are you sure you want to delete this task?')) {
       return;
     }
@@ -106,10 +112,12 @@ export class TaskListComponent implements OnInit {
         } else {
           this.commonService.pendingTasks.update((pending) => pending - 1);
         }
+        this.isLoading = false;
         this.toastr.success(response.message);
       },
       error: (error) => {
         console.error('Error deleting task:', error);
+        this.isLoading = false;
         this.toastr.error('Failed to delete task. Please try again later.');
       },
     });
