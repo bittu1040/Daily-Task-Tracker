@@ -1,43 +1,81 @@
+/* Common Color Palette - Static colors that don't change */
+:root {
+  /* Base color palette */
+  --color-blue: #1976d2;
+  --color-pink: #e91e63;
+  --color-purple: #673ab7;
+  --color-success: #4caf50;
+  --color-warning: #f44336;
+  --color-light-blue: #03a9f4;
+  --color-light-pink: #f48fb1;
+  --color-light-purple: #b39ddb;
+  --color-white: #ffffff;
+  --color-light-gray: #f8f9fa;
+  --color-dark-gray: #212529;
+  --color-muted: #6c757d;
+  --color-border-light: #dee2e6;
+  --color-border-blue: #bbdefb;
+  --color-border-pink: #f8bbd0;
+  --color-border-purple: #d1c4e9;
+  --color-bg-blue: #e3f2fd;
+  --color-bg-pink: #fce4ec;
+  --color-bg-purple: #ede7f6;
+  --color-text-blue: #0d47a1;
+  --color-text-pink: #880e4f;
+  --color-text-purple: #4a148c;
+}
+
 /* Default Theme Variables */
 :root {
   --primary-color: #3f51b5;
   --accent-color: #ff4081;
-  --warn-color: #f44336;
-  --success-color: #4caf50;
-  --muted-text-color: #6c757d;
-  --text-color-inverse: #fff;
-  --background-color: #f8f9fa;
-  --card-background: #ffffff;
-  --text-color: #212529;
-  --border-color: #dee2e6;
+  --warn-color: var(--color-warning);
+  --success-color: var(--color-success);
+  --muted-text-color: var(--color-muted);
+  --text-color-inverse: var(--color-white);
+  --background-color: var(--color-light-gray);
+  --card-background: var(--color-white);
+  --text-color: var(--color-dark-gray);
+  --border-color: var(--color-border-light);
 }
 
 /* Blue Theme */
 body.theme-blue {
-  --primary-color: #1976d2;
-  --accent-color: #03a9f4;
-  --background-color: #e3f2fd;
-  --card-background: #ffffff;
-  --text-color: #0d47a1;
-  --border-color: #bbdefb;
+  --primary-color: var(--color-blue);
+  --accent-color: var(--color-light-blue);
+  --background-color: var(--color-bg-blue);
+  --card-background: var(--color-white);
+  --text-color: var(--color-text-blue);
+  --border-color: var(--color-border-blue);
 }
 
 /* Pink Theme */
 body.theme-pink {
-  --primary-color: #e91e63;
-  --accent-color: #f48fb1;
-  --background-color: #fce4ec;
-  --card-background: #ffffff;
-  --text-color: #880e4f;
-  --border-color: #f8bbd0;
+  --primary-color: var(--color-pink);
+  --accent-color: var(--color-light-pink);
+  --background-color: var(--color-bg-pink);
+  --card-background: var(--color-white);
+  --text-color: var(--color-text-pink);
+  --border-color: var(--color-border-pink);
 }
 
 /* Purple Theme */
 body.theme-purple {
-  --primary-color: #673ab7;
-  --accent-color: #b39ddb;
-  --background-color: #ede7f6;
-  --card-background: #ffffff;
-  --text-color: #4a148c;
-  --border-color: #d1c4e9;
+  --primary-color: var(--color-purple);
+  --accent-color: var(--color-light-purple);
+  --background-color: var(--color-bg-purple);
+  --card-background: var(--color-white);
+  --text-color: var(--color-text-purple);
+  --border-color: var(--color-border-purple);
+}
+
+/* Theme button colors - using common color variables */
+.theme-blue-option { 
+  background-color: var(--color-blue) !important;
+}
+.theme-pink-option { 
+  background-color: var(--color-pink) !important;
+}
+.theme-purple-option { 
+  background-color: var(--color-purple) !important;
 }

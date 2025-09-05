@@ -1,6 +1,5 @@
 /* Global */
 html, body {
-  height: 100%;
   margin: 0;
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: var(--background-color) !important;
@@ -60,9 +59,6 @@ html, body {
   transform: scale(1.1);
   box-shadow: 0 0 0 2px var(--theme-option-border, #fff);
 }
-.theme-blue-option { background-color: var(--primary-color); }
-.theme-pink-option { background-color: var(--accent-color); }
-.theme-purple-option { background-color: var(--warn-color); }
 
 /* Task List */
 .add-task-input {
