@@ -4,14 +4,21 @@
   --color-blue: #1976d2;
   --color-pink: #e91e63;
   --color-purple: #673ab7;
+  --color-gold: #b8860b;
   --color-success: #4caf50;
   --color-warning: #f44336;
   --color-light-blue: #03a9f4;
   --color-light-pink: #f48fb1;
   --color-light-purple: #b39ddb;
+  --color-light-gold: #daa520;
   --color-white: #ffffff;
   --color-light-gray: #f8f9fa;
   --color-dark-gray: #212529;
+  --color-dark-gold-bg: #2c2416;
+  --color-dark-gold-card: #3d3220;
+  --color-dark-gold-text: #f4e4a6;
+  --color-dark-gold-border: #5a4a2a;
+  --color-dark-gold-muted: #a0956b;
   --color-muted: #6c757d;
   --color-border-light: #dee2e6;
   --color-border-blue: #bbdefb;
@@ -69,6 +76,18 @@ body.theme-purple {
   --border-color: var(--color-border-purple);
 }
 
+/* Dark Gold Theme */
+body.theme-gold {
+  --primary-color: var(--color-gold);
+  --accent-color: var(--color-light-gold);
+  --background-color: var(--color-dark-gold-bg);
+  --card-background: var(--color-dark-gold-card);
+  --text-color: var(--color-dark-gold-text);
+  --border-color: var(--color-dark-gold-border);
+  --text-color-inverse: var(--color-dark-gold-bg);
+  --muted-text-color: var(--color-dark-gold-muted);
+}
+
 /* Theme button colors - using common color variables */
 .theme-blue-option { 
   background-color: var(--color-blue) !important;
@@ -78,4 +97,7 @@ body.theme-purple {
 }
 .theme-purple-option { 
   background-color: var(--color-purple) !important;
+}
+.theme-gold-option { 
+  background-color: var(--color-gold) !important;
 }
