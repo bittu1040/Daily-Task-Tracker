@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -13,7 +13,7 @@ type Theme = 'blue' | 'pink' | 'purple' | 'gold';
 
 @Component({
   selector: 'app-top-nav',
-  imports: [MatIconModule, MatMenuModule, NgIf, MatButtonModule],
+  imports: [MatIconModule, MatMenuModule, MatButtonModule],
   templateUrl: './top-nav.component.html',
   styleUrl: './top-nav.component.scss'
 })

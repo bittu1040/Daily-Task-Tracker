@@ -1,15 +1,17 @@
 <div class="app-container">
   <!-- Global Loading Spinner -->
-  <div *ngIf="commonService.isLoading()" class="global-loading-overlay">
-    <div class="global-loading-content">
-      <mat-progress-spinner 
-        mode="indeterminate" 
-        diameter="40" 
-        strokeWidth="4"
-        color="primary">
-      </mat-progress-spinner>
+  @if (commonService.isLoading()) {
+    <div class="global-loading-overlay">
+      <div class="global-loading-content">
+        <mat-progress-spinner
+          mode="indeterminate"
+          diameter="40"
+          strokeWidth="4"
+          color="primary">
+        </mat-progress-spinner>
+      </div>
     </div>
-  </div>
+  }
 
   <app-top-nav></app-top-nav>
   <main class="main-content">

@@ -9,7 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgIf } from '@angular/common';
+
 import { LoginPayload, RegisterPayload } from '../../models/interface';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,15 +18,7 @@ import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-login',
-  imports: [MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatDividerModule,
-    NgIf],
+  imports: [MatIconModule, MatMenuModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, MatDividerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
