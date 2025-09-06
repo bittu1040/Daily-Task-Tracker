@@ -58,6 +58,9 @@ export class SupabaseService {
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/login/callback`,
+        queryParams: {
+          prompt: 'select_account' // Forces account selection every time
+        }
       },
     });
   }
