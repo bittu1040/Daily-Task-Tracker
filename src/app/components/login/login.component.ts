@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,7 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgIf } from '@angular/common';
+
 import { LoginPayload, RegisterPayload } from '../../models/interface';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,25 +18,22 @@ import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-login',
-  imports: [MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatDividerModule,
-    NgIf],
+  imports: [MatIconModule, MatMenuModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, MatDividerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   commonService = inject(CommonService);
   // authService = inject(AuthService);
   router = inject(Router);
   toastr = inject(ToastrService);
   supabaseService = inject(SupabaseService);
+
+  ngOnInit() {
+    // Turn off loading when component initializes (in case user cancelled OAuth)
+    this.commonService.isLoading.set(false);
+  }
 
 
   isRegistering = false;
@@ -105,7 +102,9 @@ export class LoginComponent {
   }
 
   signInWithGoogle() {
+    this.commonService.isLoading.set(true);
     this.supabaseService.signInWithGoogle();
+    // Note: Loading will be turned off in the callback component or if user cancels
   }
 
 

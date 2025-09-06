@@ -9,6 +9,7 @@ import { Task } from '../../models/interface';
 import { TaskService } from '../../services/task.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from '../../services/common.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-add-task',
@@ -32,23 +33,26 @@ export class AddTaskComponent {
 
   addTask(): void {
     if (this.taskForm.valid) {
-      this.taskService.addTask(this.taskForm.value.taskTitle).subscribe({
-        next: (task) => {
-          this.commonService.tasks.update((currentTasks) => [...currentTasks, task]);
-          this.commonService.totalTasks.update((total) => total + 1);
-          if (task.done) {
-            this.commonService.completedTasks.update((completed) => completed + 1);
-          } else {
-            this.commonService.pendingTasks.update((pending) => pending + 1);
-          }
-          this.taskForm.reset();
-          this.toastr.success('Task added successfully!');
-        },
-        error: (error) => {
-          console.error('Failed to add task:', error);
-          this.toastr.error('Failed to add task. Please try again later.');
-        },
-      });
+      this.commonService.isLoading.set(true);
+      this.taskService.addTask(this.taskForm.value.taskTitle)
+        .pipe(finalize(() => this.commonService.isLoading.set(false)))
+        .subscribe({
+          next: (task) => {
+            this.commonService.tasks.update((currentTasks) => [...currentTasks, task]);
+            this.commonService.totalTasks.update((total) => total + 1);
+            if (task.done) {
+              this.commonService.completedTasks.update((completed) => completed + 1);
+            } else {
+              this.commonService.pendingTasks.update((pending) => pending + 1);
+            }
+            this.taskForm.reset();
+            this.toastr.success('Task added successfully!');
+          },
+          error: (error) => {
+            console.error('Failed to add task:', error);
+            // Error message is now handled globally by the interceptor
+          },
+        });
     }
   }
 }

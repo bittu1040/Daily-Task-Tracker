@@ -1,48 +1,50 @@
 <nav class="navbar navbar-expand-lg navbar-dark mb-4">
-    <div class="container">
-      <span class="navbar-brand">
-        <i class="bi bi-check2-square me-2"></i>Task Tracker
-      </span>
-      
-      <div class="ms-auto theme-selector">
-        <div 
-          class="theme-option theme-blue-option" 
-          [class.active]="currentTheme === 'blue'"
-          (click)="setTheme('blue')" 
-          matTooltip="Light Blue Theme">
-        </div>
-        <div 
-          class="theme-option theme-pink-option" 
-          [class.active]="currentTheme === 'pink'"
-          (click)="setTheme('pink')" 
-          matTooltip="Light Pink Theme">
-        </div>
-        <div 
-          class="theme-option theme-purple-option" 
-          [class.active]="currentTheme === 'purple'"
-          (click)="setTheme('purple')" 
-          matTooltip="Light Purple Theme">
-        </div>
-        <div 
-          class="theme-option theme-gold-option" 
-          [class.active]="currentTheme === 'gold'"
-          (click)="setTheme('gold')" 
-          matTooltip="Dark Gold Theme">
-        </div>
+  <div class="container">
+    <span class="navbar-brand">
+      <i class="bi bi-check2-square me-2"></i>Task Tracker
+    </span>
 
-        <span class="navbar-brand user-menu" *ngIf="this.supabaseService.isLoggedIn()" [matMenuTriggerFor]="userMenu">
+    <div class="ms-auto theme-selector">
+      <div
+        class="theme-option theme-blue-option"
+        [class.active]="currentTheme === 'blue'"
+        (click)="setTheme('blue')"
+        matTooltip="Light Blue Theme">
+      </div>
+      <div
+        class="theme-option theme-pink-option"
+        [class.active]="currentTheme === 'pink'"
+        (click)="setTheme('pink')"
+        matTooltip="Light Pink Theme">
+      </div>
+      <div
+        class="theme-option theme-purple-option"
+        [class.active]="currentTheme === 'purple'"
+        (click)="setTheme('purple')"
+        matTooltip="Light Purple Theme">
+      </div>
+      <div
+        class="theme-option theme-gold-option"
+        [class.active]="currentTheme === 'gold'"
+        (click)="setTheme('gold')"
+        matTooltip="Dark Gold Theme">
+      </div>
+
+      @if (this.supabaseService.isLoggedIn()) {
+        <span class="navbar-brand user-menu" [matMenuTriggerFor]="userMenu">
           <i class="bi bi-person-circle"></i>
         </span>
-        <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>person</mat-icon>
-            <span>{{commonService.userName()}} </span>
-          </button>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            <span>Logout</span>
-          </button>
-        </mat-menu>
-      </div>
+      }
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>{{commonService.userName()}} </span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </div>
-  </nav>
+  </div>
+</nav>
