@@ -31,7 +31,6 @@ export class TaskListComponent implements OnInit {
   readonly commonService = inject(CommonService);
   private readonly toastr = inject(ToastrService);
 
-  isLoading = false;
   taskFilter: string = '';
 
   ngOnInit(): void {
@@ -39,17 +38,17 @@ export class TaskListComponent implements OnInit {
   }
 
   fetchTasks(): void {
-    this.isLoading = true;
+    this.commonService.isLoading.set(true);
     this.taskService
       .getTasks()
-      .pipe(finalize(() => (this.isLoading = false)))
+      .pipe(finalize(() => this.commonService.isLoading.set(false)))
       .subscribe({
         next: (tasks: Task[]) => {
           this.commonService.tasks.set(tasks);
         },
         error: (error) => {
           console.error('Error fetching tasks:', error);
-          this.toastr.error('Failed to load tasks. Please try again later.');
+          // Error message is now handled globally by the interceptor
         },
       });
   }
@@ -63,30 +62,31 @@ export class TaskListComponent implements OnInit {
 
   toggleTaskCompletion(task: Task): void {
     const updatedStatus = !task.done;
-    this.taskService.updateTaskStatus(task._id, updatedStatus).subscribe({
-      next: (response) => {
-        // Update the local task state
-        this.updateLocalTaskStatus(task._id, updatedStatus);
-        if (updatedStatus) {
-          this.commonService.completedTasks.update(
-            (completed) => completed + 1
-          );
-          this.commonService.pendingTasks.update((pending) => pending - 1);
-        } else {
-          this.commonService.completedTasks.update(
-            (completed) => completed - 1
-          );
-          this.commonService.pendingTasks.update((pending) => pending + 1);
-        }
-        this.toastr.success(response.message);
-      },
-      error: (error) => {
-        console.error('Failed to update task status:', error);
-        this.toastr.error(
-          'Failed to update task status. Please try again later.'
-        );
-      },
-    });
+    this.commonService.isLoading.set(true);
+    this.taskService.updateTaskStatus(task._id, updatedStatus)
+      .pipe(finalize(() => this.commonService.isLoading.set(false)))
+      .subscribe({
+        next: (response) => {
+          // Update the local task state
+          this.updateLocalTaskStatus(task._id, updatedStatus);
+          if (updatedStatus) {
+            this.commonService.completedTasks.update(
+              (completed) => completed + 1
+            );
+            this.commonService.pendingTasks.update((pending) => pending - 1);
+          } else {
+            this.commonService.completedTasks.update(
+              (completed) => completed - 1
+            );
+            this.commonService.pendingTasks.update((pending) => pending + 1);
+          }
+          this.toastr.success(response.message);
+        },
+        error: (error) => {
+          console.error('Failed to update task status:', error);
+          // Error message is now handled globally by the interceptor
+        },
+      });
   }
 
   deleteTask(task: Task): void {
@@ -94,25 +94,28 @@ export class TaskListComponent implements OnInit {
       return;
     }
 
-    this.taskService.deleteTask(task._id).subscribe({
-      next: (response) => {
-        // Remove task from local state instead of refetching all tasks
-        this.removeTaskFromLocalState(task._id);
-        this.commonService.totalTasks.update((total) => total - 1);
-        if (task.done) {
-          this.commonService.completedTasks.update(
-            (completed) => completed - 1
-          );
-        } else {
-          this.commonService.pendingTasks.update((pending) => pending - 1);
-        }
-        this.toastr.success(response.message);
-      },
-      error: (error) => {
-        console.error('Error deleting task:', error);
-        this.toastr.error('Failed to delete task. Please try again later.');
-      },
-    });
+    this.commonService.isLoading.set(true);
+    this.taskService.deleteTask(task._id)
+      .pipe(finalize(() => this.commonService.isLoading.set(false)))
+      .subscribe({
+        next: (response) => {
+          // Remove task from local state instead of refetching all tasks
+          this.removeTaskFromLocalState(task._id);
+          this.commonService.totalTasks.update((total) => total - 1);
+          if (task.done) {
+            this.commonService.completedTasks.update(
+              (completed) => completed - 1
+            );
+          } else {
+            this.commonService.pendingTasks.update((pending) => pending - 1);
+          }
+          this.toastr.success(response.message);
+        },
+        error: (error) => {
+          console.error('Error deleting task:', error);
+          // Error message is now handled globally by the interceptor
+        },
+      });
   }
 
   private updateLocalTaskStatus(taskId: string, status: boolean): void {

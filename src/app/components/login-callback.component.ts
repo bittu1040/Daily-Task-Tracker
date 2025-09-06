@@ -19,6 +19,7 @@ export class LoginCallbackComponent implements OnInit {
     this.supabaseService.getSession().pipe(
       concatMap(({ data, error }) => {
         if (error || !data?.session) {
+          this.commonService.isLoading.set(false); // Turn off loading on error
           this.toastr.error('Google login failed.');
           this.router.navigate(['/login']);
           throw new Error('Session missing');
@@ -34,10 +35,12 @@ export class LoginCallbackComponent implements OnInit {
       next: (profile:any) => {
         console.log('User profile loaded:', profile);
         this.commonService.userName.set(profile.user.name || profile.user.email);
+        this.commonService.isLoading.set(false); // Turn off loading on success
         this.toastr.success('Google login successful!');
         this.router.navigate(['/dashboard']);
       },
       error: () => {
+        this.commonService.isLoading.set(false); // Turn off loading on error
         this.toastr.error('Something went wrong.');
         this.router.navigate(['/dashboard']);
       }
