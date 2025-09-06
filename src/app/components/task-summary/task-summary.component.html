@@ -1,8 +1,8 @@
-<mat-expansion-panel>
+<mat-expansion-panel class="theme-expansion-panel">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div class="d-flex align-items-center">
-          <mat-icon class="me-2 text-primary">summarize</mat-icon>
+          <mat-icon class="me-2 theme-icon">summarize</mat-icon>
             AI based Task Summary
         </div>
       </mat-panel-title>
@@ -10,14 +10,13 @@
     <mat-card-content class="p-3">
       <button 
         mat-raised-button 
-        color="accent" 
-        class="w-100" 
+        class="w-100 theme-button" 
         (click)="generateSummary()"
       >
         <mat-icon>auto_awesome</mat-icon> Generate Summary
       </button>
       @if(showSummary){
-      <div class="summary-content p-3 mt-3 bg-light">
+      <div class="summary-content p-3 mt-3 theme-summary-box">
         <p class="mb-0">{{ taskSummary }}</p>   
         </div>
        }

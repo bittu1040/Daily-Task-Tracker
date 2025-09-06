@@ -1,4 +1,174 @@
-.completed-task {
-    text-decoration: line-through;
-    color: gray;
+// Task list container with dynamic background
+:host {
+  display: block;
+  color: var(--text-primary) !important;
+}
+
+// Global text color override for this component
+* {
+  color: inherit;
+}
+
+// Main card styling with theme background
+::ng-deep .mat-mdc-card {
+  background-color: var(--surface-color) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+// Card header styling
+.mat-mdc-card-header {
+  background-color: var(--surface-color) !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  
+  // Use normal text colors, not text-on-primary
+  color: var(--text-primary) !important;
+  
+  // Ensure all text in header uses normal theme colors
+  * {
+    color: var(--text-primary) !important;
   }
+  
+  .badge {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    font-weight: 600;
+  }
+  
+  .form-control {
+    background-color: var(--surface-color) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    
+    &::placeholder {
+      color: var(--text-secondary) !important;
+    }
+    
+    &:focus {
+      background-color: var(--surface-color) !important;
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 0.2rem var(--primary-color-25) !important;
+      color: var(--text-primary) !important;
+    }
+  }
+  
+  .mat-mdc-icon-button {
+    color: var(--primary-color) !important;
+    
+    &:hover {
+      background-color: var(--hover-color) !important;
+      color: var(--primary-color) !important;
+    }
+  }
+}
+
+// Card content styling
+.mat-mdc-card-content {
+  background-color: var(--surface-color) !important;
+  border-radius: 0 0 12px 12px !important;
+}
+
+// List group styling
+.list-group-item {
+  background-color: var(--surface-color) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.3s ease;
+  
+  // Ensure all text elements use theme colors
+  * {
+    color: var(--text-primary) !important;
+  }
+  
+  // Checkbox label text
+  .mat-mdc-checkbox-label {
+    color: var(--text-primary) !important;
+  }
+  
+  &:hover {
+    background-color: var(--hover-color) !important;
+    transform: translateX(4px);
+  }
+  
+  &.completed {
+    background-color: var(--surface-variant) !important;
+    opacity: 0.7;
+    
+    // Completed task text should be muted
+    * {
+      color: var(--text-secondary) !important;
+    }
+  }
+}
+
+// Checkbox styling
+::ng-deep .mat-mdc-checkbox {
+  .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+  .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+  }
+  
+  .mdc-checkbox__native-control:enabled ~ .mdc-checkbox__background {
+    border-color: var(--border-color) !important;
+  }
+  
+  .mdc-checkbox:hover .mdc-checkbox__native-control:enabled ~ .mdc-checkbox__background {
+    border-color: var(--primary-color) !important;
+  }
+}
+
+// Delete button styling
+::ng-deep .mat-mdc-icon-button {
+  &[color="warn"] {
+    color: #dc3545 !important;
+    
+    &:hover {
+      background-color: #dc3545 !important;
+      color: white !important;
+    }
+  }
+}
+
+// Empty state styling
+.empty-state {
+  background-color: var(--surface-variant) !important;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1rem 0;
+  text-align: center;
+  
+  .mat-icon {
+    color: var(--primary-color) !important;
+    opacity: 0.6;
+  }
+  
+  p {
+    color: var(--text-secondary) !important;
+    margin: 0;
+  }
+}
+
+// No matching tasks message
+.text-muted {
+  color: var(--text-secondary) !important;
+  background-color: var(--surface-variant) !important;
+  border-radius: 8px;
+  padding: 1rem;
+  
+  .mat-icon {
+    color: var(--primary-color) !important;
+  }
+  
+  div {
+    color: var(--text-secondary) !important;
+  }
+}
+
+.completed-task {
+  text-decoration: line-through;
+  color: var(--text-secondary) !important;
+}

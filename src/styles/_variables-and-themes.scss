@@ -44,6 +44,16 @@
   --card-background: var(--color-white);
   --text-color: var(--color-dark-gray);
   --border-color: var(--color-border-light);
+  
+  /* Text color variables for different surfaces */
+  --text-primary: var(--color-dark-gray);
+  --text-secondary: var(--color-muted);
+  --text-on-primary: var(--color-white);
+  --surface-color: var(--color-white);
+  --surface-variant: var(--color-light-gray);
+  --hover-color: rgba(0, 0, 0, 0.04);
+  --primary-hover: #3949ab;
+  --primary-color-25: rgba(63, 81, 181, 0.25);
 }
 
 /* Blue Theme */
@@ -54,6 +64,15 @@ body.theme-blue {
   --card-background: var(--color-white);
   --text-color: var(--color-text-blue);
   --border-color: var(--color-border-blue);
+  
+  --text-primary: var(--color-text-blue);
+  --text-secondary: var(--color-muted);
+  --text-on-primary: var(--color-white);
+  --surface-color: var(--color-white);
+  --surface-variant: var(--color-bg-blue);
+  --hover-color: rgba(25, 118, 210, 0.04);
+  --primary-hover: #1565c0;
+  --primary-color-25: rgba(25, 118, 210, 0.25);
 }
 
 /* Pink Theme */
@@ -64,6 +83,15 @@ body.theme-pink {
   --card-background: var(--color-white);
   --text-color: var(--color-text-pink);
   --border-color: var(--color-border-pink);
+  
+  --text-primary: var(--color-text-pink);
+  --text-secondary: var(--color-muted);
+  --text-on-primary: var(--color-white);
+  --surface-color: var(--color-white);
+  --surface-variant: var(--color-bg-pink);
+  --hover-color: rgba(233, 30, 99, 0.04);
+  --primary-hover: #c2185b;
+  --primary-color-25: rgba(233, 30, 99, 0.25);
 }
 
 /* Purple Theme */
@@ -74,6 +102,15 @@ body.theme-purple {
   --card-background: var(--color-white);
   --text-color: var(--color-text-purple);
   --border-color: var(--color-border-purple);
+  
+  --text-primary: var(--color-text-purple);
+  --text-secondary: var(--color-muted);
+  --text-on-primary: var(--color-white);
+  --surface-color: var(--color-white);
+  --surface-variant: var(--color-bg-purple);
+  --hover-color: rgba(103, 58, 183, 0.04);
+  --primary-hover: #512da8;
+  --primary-color-25: rgba(103, 58, 183, 0.25);
 }
 
 /* Dark Gold Theme */
@@ -86,6 +123,15 @@ body.theme-gold {
   --border-color: var(--color-dark-gold-border);
   --text-color-inverse: var(--color-dark-gold-bg);
   --muted-text-color: var(--color-dark-gold-muted);
+  
+  --text-primary: var(--color-dark-gold-text);
+  --text-secondary: var(--color-dark-gold-muted);
+  --text-on-primary: var(--color-dark-gold-bg);
+  --surface-color: var(--color-dark-gold-card);
+  --surface-variant: var(--color-dark-gold-bg);
+  --hover-color: rgba(218, 165, 32, 0.04);
+  --primary-hover: #9b7f0c;
+  --primary-color-25: rgba(184, 134, 11, 0.25);
 }
 
 /* Theme button colors - using common color variables */

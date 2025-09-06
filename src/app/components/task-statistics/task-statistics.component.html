@@ -1,8 +1,8 @@
-<mat-card appearance="outlined">
+<mat-card appearance="outlined" class="theme-card">
     <mat-card-header>
       <mat-card-title>
         <div class="d-flex align-items-center">
-          <mat-icon class="me-2 text-primary">insights</mat-icon>
+          <mat-icon class="me-2 theme-icon">insights</mat-icon>
           Task Statistics
         </div>
       </mat-card-title>
@@ -10,43 +10,32 @@
     <mat-card-content class="p-3">
       <div class="row g-3">
         <div class="col-4">
-          <div class="stat-card bg-primary bg-opacity-10 p-2 text-center">
-            <mat-icon class="text-primary">format_list_bulleted</mat-icon>
+          <div class="stat-card stat-card-primary p-2 text-center">
+            <mat-icon class="stat-icon">format_list_bulleted</mat-icon>
             <div class="mt-1">
-              <h6 class="mb-0">{{ this.commonService.totalTasks() }}</h6>
-              <small class="text-muted">Total</small>
+              <h6 class="mb-0 stat-number">{{ this.commonService.totalTasks() }}</h6>
+              <small class="stat-label">Total</small>
             </div>
           </div>
         </div>
         <div class="col-4">
-          <div class="stat-card bg-success bg-opacity-10 p-2 text-center">
-            <mat-icon class="text-success">check_circle</mat-icon>
+          <div class="stat-card stat-card-success p-2 text-center">
+            <mat-icon class="stat-icon stat-icon-success">check_circle</mat-icon>
             <div class="mt-1">
-              <h6 class="mb-0">{{ this.commonService.completedTasks() }}</h6>
-              <small class="text-muted">Done</small>
+              <h6 class="mb-0 stat-number">{{ this.commonService.completedTasks() }}</h6>
+              <small class="stat-label">Done</small>
             </div>
           </div>
         </div>
         <div class="col-4">
-          <div class="stat-card bg-warning bg-opacity-10 p-2 text-center">
-            <mat-icon class="text-warning">hourglass_empty</mat-icon>
+          <div class="stat-card stat-card-pending p-2 text-center">
+            <mat-icon class="stat-icon stat-icon-pending">hourglass_empty</mat-icon>
             <div class="mt-1">
-              <h6 class="mb-0">{{ this.commonService.pendingTasks() }}</h6>
-              <small class="text-muted">Pending</small>
+              <h6 class="mb-0 stat-number">{{ this.commonService.pendingTasks() }}</h6>
+              <small class="stat-label">Pending</small>
             </div>
           </div>
         </div>
-        <!-- <div class="col-12" *ngIf="tasks.length > 0">
-          <mat-progress-bar
-            mode="determinate"
-            [value]="(completedTasks / tasks.length) * 100"
-            color="primary"
-          ></mat-progress-bar>
-          <div class="d-flex justify-content-between mt-1">
-            <small>Progress</small>
-            <small>{{ Math.round((completedTasks / tasks.length) * 100) }}%</small>
-          </div>
-        </div> -->
       </div>
     </mat-card-content>
   </mat-card>
