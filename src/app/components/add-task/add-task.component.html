@@ -1,8 +1,8 @@
-<mat-card appearance="outlined">
+<mat-card appearance="outlined" class="theme-card">
   <mat-card-header>
     <mat-card-title>
       <div class="d-flex align-items-center">
-        <mat-icon class="me-2">add_circle</mat-icon>
+        <mat-icon class="me-2 theme-icon">add_circle</mat-icon>
         Add New Task
       </div>
     </mat-card-title>
@@ -10,10 +10,10 @@
   <mat-card-content class="p-3">
     <form [formGroup]="taskForm">
       <div class="input-group">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="theme-form-field w-100">
           <mat-label>What do you need to do?</mat-label>
           <input matInput formControlName="taskTitle" placeholder="Enter your task here" (keyup.enter)="addTask()">
-          <mat-icon matSuffix>assignment</mat-icon>
+          <mat-icon matSuffix class="theme-form-icon">assignment</mat-icon>
           @if (taskForm.get('taskTitle')?.hasError('required')) {
           <mat-error>
             Task title is required.
@@ -24,7 +24,7 @@
     </form>
   </mat-card-content>
   <mat-card-actions align="end" class="px-3 pb-3">
-    <button mat-raised-button (click)="addTask()" [disabled]="taskForm.invalid">
+    <button mat-raised-button class="theme-button" (click)="addTask()" [disabled]="taskForm.invalid">
       <mat-icon>add</mat-icon> Add Task
     </button>
   </mat-card-actions>

@@ -1,3 +1,99 @@
 mat-card{
     min-height: 100px !important;
 }
+
+// Simplified expansion panel styling with better gold theme support
+::ng-deep .theme-expansion-panel {
+  .mat-expansion-panel {
+    background-color: var(--card-background) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    margin-bottom: 1rem !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+
+    // Enhanced styling when expanded
+    &.mat-expanded {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+    }
+  }
+
+  .mat-expansion-panel-header {
+    background-color: var(--card-background) !important;
+    color: var(--text-primary) !important;
+    padding: 1rem !important;
+    transition: all 0.3s ease !important;
+
+    &:hover {
+      background-color: var(--background-color) !important;
+    }
+
+    &.mat-expanded {
+      background-color: var(--card-background) !important;
+    }
+
+    .mat-expansion-panel-header-title {
+      color: var(--text-primary) !important;
+      font-weight: 600 !important;
+      font-size: 1.1rem !important;
+    }
+
+    .mat-expansion-indicator::after {
+      color: var(--primary-color) !important;
+    }
+  }
+
+  .mat-expansion-panel-content {
+    background-color: var(--card-background) !important;
+  }
+
+  .mat-expansion-panel-body {
+    background-color: var(--card-background) !important;
+    padding: 0 !important;
+  }
+
+  // Override Material's default states
+  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"]),
+  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"]),
+  .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+    background-color: var(--background-color) !important;
+  }
+}
+
+.theme-icon {
+  color: var(--primary-color) !important;
+}
+
+.theme-button {
+  ::ng-deep .mat-mdc-raised-button {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--primary-hover) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.theme-summary-box {
+  background-color: var(--card-background) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  
+  p {
+    color: var(--text-primary) !important;
+    line-height: 1.6;
+    margin: 0;
+  }
+}

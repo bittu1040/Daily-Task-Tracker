@@ -1,0 +1,113 @@
+/* Theme-aware card styling */
+.theme-card {
+  background-color: var(--card-background) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+  
+  mat-card-title {
+    color: var(--text-color) !important;
+  }
+}
+
+/* Theme-aware icon */
+.theme-icon {
+  color: var(--primary-color) !important;
+}
+
+/* Stat cards with theme colors */
+.stat-card {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Primary stat card (Total tasks) - uses theme color */
+.stat-card-primary {
+  background-color: var(--primary-color);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  color: white !important;
+  
+  .stat-number {
+    color: white !important;
+  }
+  
+  .stat-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  .stat-icon {
+    color: white !important;
+  }
+}
+
+/* Success stat card (Completed tasks) */
+.stat-card-success {
+  background-color: #28a745;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.1));
+  color: white !important;
+  
+  .stat-number {
+    color: white !important;
+  }
+  
+  .stat-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  .stat-icon-success {
+    color: white !important;
+  }
+}
+
+/* Pending stat card (Pending tasks) */
+.stat-card-pending {
+  background-color: #ffc107;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.15));
+  color: #333 !important;
+  
+  .stat-number {
+    color: #333 !important;
+  }
+  
+  .stat-label {
+    color: rgba(51, 51, 51, 0.8) !important;
+  }
+  
+  .stat-icon-pending {
+    color: #333 !important;
+  }
+}
+
+/* Stat icons */
+.stat-icon {
+  color: var(--primary-color) !important;
+  font-size: 1.5rem !important;
+  
+  &.stat-icon-success {
+    color: #28a745 !important;
+  }
+  
+  &.stat-icon-pending {
+    color: #ffc107 !important;
+  }
+}
+
+/* Stat numbers */
+.stat-number {
+  color: var(--text-color) !important;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+/* Stat labels */
+.stat-label {
+  color: var(--muted-text-color) !important;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
