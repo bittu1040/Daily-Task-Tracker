@@ -1,6 +1,140 @@
 .google-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-    vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: middle;
+  transition: filter 0.3s ease;
+}
+
+/* Google button specific styling */
+.google-signin-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  border-color: var(--border-color) !important;
+  
+  &:hover {
+    border-color: var(--primary-color) !important;
   }
+}
+
+/* Form field specific styling */
+.theme-form-field {
+  
+  input {
+    color: var(--text-color) !important;
+  }
+  
+  mat-label {
+    color: var(--text-color) !important;
+  }
+  
+  mat-icon {
+    color: var(--primary-color) !important;
+  }
+}
+
+::ng-deep .theme-form-field {
+  .mat-mdc-text-field-wrapper {
+    border: 1px solid var(--border-color) !important;
+    
+    &:hover {
+      border-color: var(--primary-color) !important;
+    }
+  }
+  
+  .mat-mdc-form-field-input-control input {
+    color: var(--text-color) !important;
+    
+    &::placeholder {
+      color: var(--muted-text-color) !important;
+    }
+  }
+  
+  .mat-mdc-floating-label {
+    color: var(--text-color) !important;
+  }
+  
+  .mat-mdc-form-field-icon-suffix mat-icon {
+    color: var(--primary-color) !important;
+  }
+}
+
+/* Login page specific styles */
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  
+  .container {
+    max-width: 1200px;
+  }
+  
+  /* Header text colors */
+  h1 {
+    color: var(--text-color);
+    font-weight: 700;
+  }
+  
+  .lead {
+    color: var(--text-color);
+    opacity: 0.9;
+  }
+  
+  /* Login card styling */
+  .login-card {
+    background-color: var(--card-background) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    
+    mat-card-header {
+      background-color: transparent;
+      
+      mat-card-title {
+        color: var(--text-color) !important;
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+    
+    mat-card-content {
+      background-color: transparent;
+      
+      /* Divider styling */
+      mat-divider {
+        border-color: var(--border-color) !important;
+      }
+      
+      /* Text styling */
+      p {
+        color: var(--text-color) !important;
+      }
+    }
+  }
+  
+  /* Feature section styling */
+  .feature-icon {
+    font-size: 3rem;
+    color: var(--primary-color) !important;
+    margin-bottom: 1rem;
+  }
+  
+  .features {
+    h5 {
+      color: var(--text-color) !important;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    
+    p {
+      color: var(--muted-text-color) !important;
+      font-size: 0.9rem;
+    }
+  }
+}

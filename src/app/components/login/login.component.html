@@ -33,7 +33,7 @@
             </mat-card-header>
             <mat-card-content class="p-4">
               <form *ngIf="!isRegistering" (ngSubmit)="login()">
-                <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
                   <mat-label>Email</mat-label>
                   <input 
                     matInput 
@@ -46,7 +46,7 @@
                   <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
                 
-                <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
                   <mat-label>Password</mat-label>
                   <input 
                     matInput 
@@ -73,7 +73,7 @@
                 <button 
                   mat-stroked-button 
                   color="primary" 
-                  class="w-100 mb-3"
+                  class="w-100 mb-3 google-signin-btn"
                   type="button"
                   (click)="signInWithGoogle()"
                 >
@@ -96,7 +96,7 @@
               </form>
 
               <form *ngIf="isRegistering" (ngSubmit)="register()">
-                <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
                   <mat-label>Full Name</mat-label>
                   <input 
                     matInput 
@@ -109,7 +109,7 @@
                   <mat-icon matSuffix>person</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
                   <mat-label>Email</mat-label>
                   <input 
                     matInput 
@@ -122,7 +122,7 @@
                   <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
                 
-                <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
                   <mat-label>Password</mat-label>
                   <input 
                     matInput 
@@ -162,8 +162,9 @@
                 <button 
                   mat-stroked-button 
                   color="primary" 
-                  class="w-100 mb-3"
+                  class="w-100 mb-3 google-signin-btn"
                   type="button"
+                  (click)="signInWithGoogle()"
                 >
                 <img src="../../../assets/google.png" alt="Google" class="google-icon"> 
                 <!-- <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_icon.png" alt="Google" class="google-icon">  -->

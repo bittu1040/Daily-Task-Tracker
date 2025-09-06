@@ -1,0 +1,30 @@
+/* App Layout using Flexbox */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  
+  .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Special handling for login page */
+.landing-page {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  
+  .container {
+    width: 100%;
+  }
+}

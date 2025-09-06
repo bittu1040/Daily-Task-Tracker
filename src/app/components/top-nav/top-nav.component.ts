@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserProfile } from '../../models/interface';
 import { SupabaseService } from '../../services/supabase.service';
 
-type Theme = 'blue' | 'pink' | 'purple';
+type Theme = 'blue' | 'pink' | 'purple' | 'gold';
 
 @Component({
   selector: 'app-top-nav',
