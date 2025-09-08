@@ -19,13 +19,25 @@ export class TaskService {
   }
 
   // Add a new task
-  addTask(title: string): Observable<Task> {
-    return this.http.post<Task>(`${environment.apiBaseUrl}/task/add`, { title });
+  addTask(title: string, dueDate?: string): Observable<Task> {
+    const payload: any = { title };
+    if (dueDate) {
+      payload.dueDate = dueDate;
+    }
+    return this.http.post<Task>(`${environment.apiBaseUrl}/task/add`, payload);
   }
 
   // Mark a task as done or not done
   updateTaskStatus(taskId: string, done: boolean): Observable<{ message: string; task: Task }> {
     return this.http.patch<{ message: string; task: Task }>(`${environment.apiBaseUrl}/task/done/${taskId}`, { done });
+  }
+
+  // Update task title and/or due date
+  updateTask(taskId: string, title?: string, dueDate?: Date | string): Observable<{ message: string; task: Task }> {
+    const payload: any = {};
+    if (title) payload.title = title;
+    if (dueDate) payload.dueDate = dueDate;
+    return this.http.patch<{ message: string; task: Task }>(`${environment.apiBaseUrl}/task/update/${taskId}`, payload);
   }
 
   // Delete a task
@@ -35,5 +47,10 @@ export class TaskService {
 
   getTaskStatistics(): Observable<TaskStatistics> {
     return this.http.get<TaskStatistics>(`${environment.apiBaseUrl}/task/stats`);
+  }
+
+  // Bulk import tasks
+  importTasks(tasks: { title: string; dueDate?: string }[]): Observable<{ message: string; imported: number }> {
+    return this.http.post<{ message: string; imported: number }>(`${environment.apiBaseUrl}/task/import`, { tasks });
   }
 }

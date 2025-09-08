@@ -21,6 +21,14 @@
           }
         </mat-form-field>
       </div>
+      
+      <div class="input-group mt-3">
+        <mat-form-field appearance="outline" class="theme-form-field w-100">
+          <mat-label>Due Date (Optional)</mat-label>
+          <input matInput type="date" formControlName="dueDate" [min]="today">
+          <mat-icon matSuffix class="theme-form-icon">event</mat-icon>
+        </mat-form-field>
+      </div>
     </form>
   </mat-card-content>
   <mat-card-actions align="end" class="px-3 pb-3">

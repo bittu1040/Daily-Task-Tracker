@@ -55,12 +55,17 @@
     }
   }
   
-  .mat-mdc-icon-button {
+  &.mat-mdc-icon-button {
     color: var(--primary-color) !important;
     
     &:hover {
       background-color: var(--hover-color) !important;
       color: var(--primary-color) !important;
+    }
+    
+    &.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
     }
   }
 }
@@ -171,4 +176,73 @@
 .completed-task {
   text-decoration: line-through;
   color: var(--text-secondary) !important;
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 8px;
+  flex-grow: 1;
+}
+
+.due-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--text-secondary) !important;
+  margin-top: 2px;
+  
+  mat-icon {
+    font-size: 14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    color: var(--text-secondary) !important;
+  }
+  
+  &.overdue {
+    color: #dc3545 !important;
+    font-weight: 500;
+    
+    mat-icon {
+      color: #dc3545 !important;
+    }
+    
+    span {
+      color: #dc3545 !important;
+    }
+  }
+  
+  &.due-soon {
+    color: #fd7e14 !important;
+    font-weight: 500;
+    
+    mat-icon {
+      color: #fd7e14 !important;
+    }
+    
+    span {
+      color: #fd7e14 !important;
+    }
+  }
+}
+
+// Filter dropdown styling
+.form-select {
+  background-color: var(--surface-color) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  
+  &:focus {
+    background-color: var(--surface-color) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem var(--primary-color-25) !important;
+    color: var(--text-primary) !important;
+  }
+  
+  option {
+    background-color: var(--surface-color) !important;
+    color: var(--text-primary) !important;
+  }
 }

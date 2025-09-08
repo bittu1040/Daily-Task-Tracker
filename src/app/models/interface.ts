@@ -38,6 +38,7 @@ export interface Task {
   done: boolean; // Indicates if the task is marked as done
   createdAt: Date;
   user: string; // User ID associated with the task
+  dueDate?: Date; // Add due date field
 }
 
 export interface TaskStatistics {
