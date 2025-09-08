@@ -1,17 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-
-
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-  createdAt: Date;
-}
+import { CommonService } from '../../services/common.service';
+import { Task } from '../../models/interface';
 
 @Component({
   selector: 'app-task-summary',
@@ -19,35 +13,79 @@ interface Task {
   templateUrl: './task-summary.component.html',
   styleUrl: './task-summary.component.scss'
 })
-export class TaskSummaryComponent {
-
+export class TaskSummaryComponent implements OnInit {
+  readonly commonService = inject(CommonService);
+  
   taskSummary: string = '';
   showSummary: boolean = false;
-  tasks: Task[] = [];
 
+  ngOnInit(): void {
+    // Auto-generate summary when component loads
+    setTimeout(() => this.generateSummary(), 500);
+  }
 
   generateSummary() {
-    // Dummy summary data for now - this will be replaced with AI-generated content later
+    const tasks = this.commonService.tasks();
     const completedCount = this.completedTasks;
     const pendingCount = this.pendingTasks;
-    const completionRate = this.tasks.length > 0 ? Math.round((completedCount / this.tasks.length) * 100) : 0;
+    const overdueCount = this.overdueTasks;
+    const dueTodayCount = this.tasksDueToday;
+    const completionRate = tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0;
     
-    this.taskSummary = `You have completed ${completedCount} out of ${this.tasks.length} tasks (${completionRate}% completion rate). You still have ${pendingCount} tasks pending. ${this.getMotivationalMessage(completionRate)}`;
+    let summary = `You have completed ${completedCount} out of ${tasks.length} tasks (${completionRate}% completion rate). `;
     
+    if (pendingCount > 0) {
+      summary += `You still have ${pendingCount} tasks pending. `;
+    }
+    
+    if (overdueCount > 0) {
+      summary += `⚠️ ${overdueCount} task${overdueCount > 1 ? 's are' : ' is'} overdue! `;
+    }
+    
+    if (dueTodayCount > 0) {
+      summary += `📅 ${dueTodayCount} task${dueTodayCount > 1 ? 's are' : ' is'} due today. `;
+    }
+    
+    summary += this.getMotivationalMessage(completionRate, overdueCount);
+    
+    this.taskSummary = summary;
     this.showSummary = true;
   }
 
   get completedTasks(): number {
-    return this.tasks.filter(task => task.completed).length;
+    return this.commonService.tasks().filter(task => task.done).length;
   }
 
   get pendingTasks(): number {
-    return this.tasks.filter(task => !task.completed).length;
+    return this.commonService.tasks().filter(task => !task.done).length;
   }
 
+  get overdueTasks(): number {
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    return this.commonService.tasks().filter(task => 
+      !task.done && task.dueDate && new Date(task.dueDate) < today
+    ).length;
+  }
 
-  getMotivationalMessage(completionRate: number): string {
-    if (completionRate >= 80) {
+  get tasksDueToday(): number {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    return this.commonService.tasks().filter(task => {
+      if (!task.dueDate || task.done) return false;
+      const dueDate = new Date(task.dueDate);
+      dueDate.setHours(0, 0, 0, 0);
+      return dueDate.getTime() === today.getTime();
+    }).length;
+  }
+
+  getMotivationalMessage(completionRate: number, overdueCount: number): string {
+    if (overdueCount > 0) {
+      return "Focus on completing overdue tasks first to get back on track!";
+    } else if (completionRate >= 80) {
       return "Excellent work! You're almost there, keep up the great momentum!";
     } else if (completionRate >= 50) {
       return "Good progress! You're halfway there, keep pushing forward!";
