@@ -1,32 +1,70 @@
 <mat-card appearance="outlined">
     <mat-card-header>
-        <div class="d-flex justify-content-between w-100 align-items-center">
-            <div>
-                Total Tasks : <span class="badge rounded-pill">{{ commonService.tasks().length }}</span>
+        <div class="container-fluid">
+            <!-- Row 1: Total Tasks + Search Filter (mobile) / Total Tasks + All Controls (desktop) -->
+            <div class="row align-items-center mb-2 mb-sm-0">
+                <div class="col-6 col-sm-3">
+                    Total Tasks : <span class="badge rounded-pill">{{ commonService.tasks().length }}</span>
+                </div>
+                <div class="col-6 d-block d-sm-none">
+                    <input type="text" class="form-control form-control-sm" 
+                        [(ngModel)]="taskFilter" placeholder="Search..." [disabled]="commonService.tasks().length === 0" />
+                </div>
+                <div class="col-9 d-none d-sm-block">
+                    <div class="d-flex align-items-center gap-2 justify-content-end">
+                        <select class="form-select form-select-sm" style="width: 140px;"
+                            [(ngModel)]="dueDateFilter" [disabled]="commonService.tasks().length === 0">
+                            <option value="">All Tasks</option>
+                            <option value="overdue">Overdue</option>
+                            <option value="today">Due Today</option>
+                            <option value="tomorrow">Due Tomorrow</option>
+                            <option value="thisWeek">This Week</option>
+                            <option value="noDate">No Due Date</option>
+                        </select>
+                        <input type="text" class="form-control form-control-sm" style="width: 160px;"
+                            [(ngModel)]="taskFilter" placeholder="Search..." [disabled]="commonService.tasks().length === 0" />
+                        <button mat-icon-button (click)="sortByDueDate()" matTooltip="Sort by due date" 
+                            [disabled]="commonService.tasks().length === 0" [class.active]="sortedByDueDate">
+                            <mat-icon>sort</mat-icon>
+                        </button>
+                        <input type="file" #fileInput accept=".json" (change)="onFileSelected($event)" style="display: none;">
+                        <button mat-icon-button (click)="fileInput.click()" matTooltip="Import tasks from JSON">
+                            <mat-icon>file_upload</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="exportTasks()" matTooltip="Export tasks" [disabled]="commonService.tasks().length === 0">
+                            <mat-icon>file_download</mat-icon>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex align-items-center">
-                <select class="form-select form-select-sm me-2" style="max-width: 120px;"
-                    [(ngModel)]="dueDateFilter" [disabled]="commonService.tasks().length === 0">
-                    <option value="">All Tasks</option>
-                    <option value="overdue">Overdue</option>
-                    <option value="today">Due Today</option>
-                    <option value="tomorrow">Due Tomorrow</option>
-                    <option value="thisWeek">This Week</option>
-                    <option value="noDate">No Due Date</option>
-                </select>
-                <input type="text" class="form-control form-control-sm me-2" style="max-width: 140px;"
-                    [(ngModel)]="taskFilter" placeholder="Filter..." [disabled]="commonService.tasks().length === 0" />
-                <button mat-icon-button (click)="sortByDueDate()" matTooltip="Sort by due date" 
-                    [disabled]="commonService.tasks().length === 0" [class.active]="sortedByDueDate">
-                    <mat-icon>sort</mat-icon>
-                </button>
-                <input type="file" #fileInput accept=".json" (change)="onFileSelected($event)" style="display: none;">
-                <button mat-icon-button (click)="fileInput.click()" matTooltip="Import tasks from JSON">
-                    <mat-icon>file_upload</mat-icon>
-                </button>
-                <button mat-icon-button (click)="exportTasks()" matTooltip="Export tasks" [disabled]="commonService.tasks().length === 0">
-                    <mat-icon>file_download</mat-icon>
-                </button>
+            
+            <!-- Row 2: Due Date Filter + Action Buttons (mobile only) -->
+            <div class="row align-items-center d-block d-sm-none">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <select class="form-select form-select-sm" style="max-width: 140px;"
+                            [(ngModel)]="dueDateFilter" [disabled]="commonService.tasks().length === 0">
+                            <option value="">All Tasks</option>
+                            <option value="overdue">Overdue</option>
+                            <option value="today">Due Today</option>
+                            <option value="tomorrow">Due Tomorrow</option>
+                            <option value="thisWeek">This Week</option>
+                            <option value="noDate">No Due Date</option>
+                        </select>
+                        <div class="d-flex gap-1">
+                            <button mat-icon-button (click)="sortByDueDate()" matTooltip="Sort by due date" 
+                                [disabled]="commonService.tasks().length === 0" [class.active]="sortedByDueDate">
+                                <mat-icon>sort</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="fileInput.click()" matTooltip="Import tasks from JSON">
+                                <mat-icon>file_upload</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="exportTasks()" matTooltip="Export tasks" [disabled]="commonService.tasks().length === 0">
+                                <mat-icon>file_download</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </mat-card-header>
