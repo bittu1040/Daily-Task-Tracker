@@ -53,4 +53,11 @@ export class TaskService {
   importTasks(tasks: { title: string; dueDate?: string }[]): Observable<{ message: string; imported: number }> {
     return this.http.post<{ message: string; imported: number }>(`${environment.apiBaseUrl}/task/import`, { tasks });
   }
+
+  // Export tasks as JSON file
+  exportTasks(): Observable<Blob> {
+    return this.http.get(`${environment.apiBaseUrl}/task/export`, { 
+      responseType: 'blob'
+    });
+  }
 }
