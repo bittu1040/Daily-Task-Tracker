@@ -5,7 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonService } from '../../services/common.service';
+import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/interface';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-task-summary',
@@ -15,9 +17,11 @@ import { Task } from '../../models/interface';
 })
 export class TaskSummaryComponent implements OnInit {
   readonly commonService = inject(CommonService);
+  readonly taskService = inject(TaskService);
   
   taskSummary: string = '';
   showSummary: boolean = false;
+  isGeneratingSummary: boolean = false;
 
   ngOnInit(): void {
     // Auto-generate summary when component loads
@@ -25,75 +29,25 @@ export class TaskSummaryComponent implements OnInit {
   }
 
   generateSummary() {
-    const tasks = this.commonService.tasks();
-    const completedCount = this.completedTasks;
-    const pendingCount = this.pendingTasks;
-    const overdueCount = this.overdueTasks;
-    const dueTodayCount = this.tasksDueToday;
-    const completionRate = tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0;
-    
-    let summary = `You have completed ${completedCount} out of ${tasks.length} tasks (${completionRate}% completion rate). `;
-    
-    if (pendingCount > 0) {
-      summary += `You still have ${pendingCount} tasks pending. `;
+    if (this.commonService.tasks().length === 0) {
+      this.taskSummary = 'No tasks available to generate summary.';
+      this.showSummary = true;
+      return;
     }
-    
-    if (overdueCount > 0) {
-      summary += `⚠️ ${overdueCount} task${overdueCount > 1 ? 's are' : ' is'} overdue! `;
-    }
-    
-    if (dueTodayCount > 0) {
-      summary += `📅 ${dueTodayCount} task${dueTodayCount > 1 ? 's are' : ' is'} due today. `;
-    }
-    
-    summary += this.getMotivationalMessage(completionRate, overdueCount);
-    
-    this.taskSummary = summary;
-    this.showSummary = true;
-  }
 
-  get completedTasks(): number {
-    return this.commonService.tasks().filter(task => task.done).length;
+    this.isGeneratingSummary = true;
+    this.taskService.generateTaskSummary()
+      .pipe(finalize(() => this.isGeneratingSummary = false))
+      .subscribe({
+        next: (response) => {
+          this.taskSummary = response.summary || response.message || 'Summary generated successfully.';
+          this.showSummary = true;
+        },
+        error: (error) => {
+          console.error('Failed to generate summary:', error);
+          this.taskSummary = 'Failed to generate summary. Please try again later.';
+          this.showSummary = true;
+        }
+      });
   }
-
-  get pendingTasks(): number {
-    return this.commonService.tasks().filter(task => !task.done).length;
-  }
-
-  get overdueTasks(): number {
-    const today = new Date();
-    today.setHours(23, 59, 59, 999);
-    return this.commonService.tasks().filter(task => 
-      !task.done && task.dueDate && new Date(task.dueDate) < today
-    ).length;
-  }
-
-  get tasksDueToday(): number {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    return this.commonService.tasks().filter(task => {
-      if (!task.dueDate || task.done) return false;
-      const dueDate = new Date(task.dueDate);
-      dueDate.setHours(0, 0, 0, 0);
-      return dueDate.getTime() === today.getTime();
-    }).length;
-  }
-
-  getMotivationalMessage(completionRate: number, overdueCount: number): string {
-    if (overdueCount > 0) {
-      return "Focus on completing overdue tasks first to get back on track!";
-    } else if (completionRate >= 80) {
-      return "Excellent work! You're almost there, keep up the great momentum!";
-    } else if (completionRate >= 50) {
-      return "Good progress! You're halfway there, keep pushing forward!";
-    } else if (completionRate > 0) {
-      return "You've made a start! Focus on completing more tasks to build momentum.";
-    } else {
-      return "Time to get started! Break down your tasks and tackle them one by one.";
-    }
-  }
-
 }
