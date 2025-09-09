@@ -60,4 +60,9 @@ export class TaskService {
       responseType: 'blob'
     });
   }
+
+  // Generate AI-powered task summary
+  generateTaskSummary(): Observable<any> {
+    return this.http.post<any>(`${environment.apiBaseUrl}/task/summary`, {});
+  }
 }
