@@ -267,16 +267,30 @@ export class TaskListComponent implements OnInit {
   }
 
   exportTasks() {
-    const tasks = this.commonService.tasks();
-    const dataStr =
-      'data:text/json;charset=utf-8,' +
-      encodeURIComponent(JSON.stringify(tasks));
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute('href', dataStr);
-    downloadAnchorNode.setAttribute('download', 'tasks.json');
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+    this.commonService.isLoading.set(true);
+    this.taskService.exportTasks()
+      .pipe(finalize(() => this.commonService.isLoading.set(false)))
+      .subscribe({
+        next: (blob) => {
+          // Create download link
+          const url = window.URL.createObjectURL(blob);
+          const downloadAnchorNode = document.createElement('a');
+          downloadAnchorNode.setAttribute('href', url);
+          downloadAnchorNode.setAttribute('download', 'tasks.json');
+          document.body.appendChild(downloadAnchorNode);
+          downloadAnchorNode.click();
+          downloadAnchorNode.remove();
+          
+          // Clean up the URL object
+          window.URL.revokeObjectURL(url);
+          
+          this.toastr.success('Tasks exported successfully!');
+        },
+        error: (error) => {
+          console.error('Error exporting tasks:', error);
+          this.toastr.error('Failed to export tasks.');
+        }
+      });
   }
 
   onFileSelected(event: any): void {
@@ -306,6 +320,12 @@ export class TaskListComponent implements OnInit {
       return;
     }
 
+    // Check import limit
+    if (importedTasks.length > 100) {
+      this.toastr.error('Import limit exceeded! You can only import up to 100 tasks at once.');
+      return;
+    }
+
     // Validate and clean task format (handle MongoDB export format)
     const validTasks = importedTasks.filter(task =>
       task &&
@@ -327,83 +347,47 @@ export class TaskListComponent implements OnInit {
       this.toastr.warning(`${importedTasks.length - validTasks.length} invalid tasks were skipped.`);
     }
 
-    // Show confirmation dialog for replacing all tasks
+    // Show confirmation dialog for appending tasks
     const existingCount = this.commonService.tasks().length;
-    const confirmMessage = `Replace all ${existingCount} existing tasks with ${validTasks.length} imported tasks? This action cannot be undone!`;
+    const confirmMessage = `Add ${validTasks.length} imported tasks to your existing ${existingCount} tasks?`;
 
     if (!confirm(confirmMessage)) {
       return;
     }
 
-    this.replaceAllTasks(validTasks);
+    this.appendTasks(validTasks);
   }
 
-  private importTasksIndividually(tasks: { title: string; dueDate?: string }[]): void {
+  private appendTasks(tasks: { title: string; dueDate?: string }[]): void {
     this.commonService.isLoading.set(true);
-    let importedCount = 0;
-    let errorCount = 0;
-
-    const importNext = (index: number) => {
-      if (index >= tasks.length) {
-        this.commonService.isLoading.set(false);
-        if (importedCount > 0) {
-          this.toastr.success(`Successfully imported ${importedCount} task${importedCount > 1 ? 's' : ''}!`);
-          this.fetchTasks(); // Refresh the task list
+    
+    // Use the bulk import API instead of individual requests
+    this.taskService.importTasks(tasks)
+      .pipe(finalize(() => this.commonService.isLoading.set(false)))
+      .subscribe({
+        next: (response) => {
+          this.toastr.success(`Successfully imported ${response.imported} task${response.imported > 1 ? 's' : ''}!`);
+          this.fetchTasks(); // Refresh the task list to include new tasks
+          this.refreshStatistics(); // Refresh the statistics tiles
+        },
+        error: (error) => {
+          console.error('Error importing tasks:', error);
+          this.toastr.error('Failed to import tasks. Please try again.');
         }
-        if (errorCount > 0) {
-          this.toastr.warning(`${errorCount} task${errorCount > 1 ? 's' : ''} failed to import.`);
-        }
-        return;
-      }
-
-      const task = tasks[index];
-      this.taskService.addTask(task.title, task.dueDate)
-        .subscribe({
-          next: () => {
-            importedCount++;
-            importNext(index + 1);
-          },
-          error: (error) => {
-            console.error(`Error importing task "${task.title}":`, error);
-            errorCount++;
-            importNext(index + 1);
-          }
-        });
-    };
-
-    importNext(0);
+      });
   }
 
-  private replaceAllTasks(tasks: { title: string; dueDate?: string }[]): void {
-    this.commonService.isLoading.set(true);
-
-    const existingTasks = this.commonService.tasks();
-
-    if (existingTasks.length === 0) {
-      // No existing tasks, just import new ones
-      this.importTasksIndividually(tasks);
-      return;
-    }
-
-    // Delete all existing tasks first, then import new ones
-    const deleteNext = (index: number) => {
-      if (index >= existingTasks.length) {
-        // All existing tasks deleted, now import new ones
-        this.importTasksIndividually(tasks);
-        return;
-      }
-
-      const task = existingTasks[index];
-      this.taskService.deleteTask(task._id)
-        .subscribe({
-          next: () => deleteNext(index + 1),
-          error: (error) => {
-            console.error(`Error deleting task "${task.title}":`, error);
-            deleteNext(index + 1);
-          }
-        });
-    };
-
-    deleteNext(0);
+  private refreshStatistics(): void {
+    // Refresh statistics after importing tasks
+    this.taskService.getTaskStatistics().subscribe({
+      next: (stats) => {
+        this.commonService.totalTasks.set(stats.total);
+        this.commonService.completedTasks.set(stats.done);
+        this.commonService.pendingTasks.set(stats.pending);
+      },
+      error: (error) => {
+        console.error('Failed to refresh task statistics:', error);
+      },
+    });
   }
 }
