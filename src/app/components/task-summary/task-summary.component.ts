@@ -34,7 +34,7 @@ export class TaskSummaryComponent {
         },
         error: (error) => {
           console.error('Failed to generate summary:', error);
-          this.taskSummary = 'Failed to generate summary. Please try again later.';
+          this.taskSummary = error.error.error;
           this.showSummary = true;
         }
       });
