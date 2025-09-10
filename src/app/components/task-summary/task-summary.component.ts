@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input'; 
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,7 @@ import { finalize } from 'rxjs';
   templateUrl: './task-summary.component.html',
   styleUrl: './task-summary.component.scss'
 })
-export class TaskSummaryComponent implements OnInit {
+export class TaskSummaryComponent implements OnInit, AfterViewInit {
   readonly commonService = inject(CommonService);
   readonly taskService = inject(TaskService);
   
@@ -24,17 +24,15 @@ export class TaskSummaryComponent implements OnInit {
   isGeneratingSummary: boolean = false;
 
   ngOnInit(): void {
-    // Auto-generate summary when component loads
-    setTimeout(() => this.generateSummary(), 500);
+    // Component initialization - no API calls here
+  }
+
+  ngAfterViewInit(): void {
+    // Auto-generate summary after view is fully initialized
+    this.generateSummary();
   }
 
   generateSummary() {
-    if (this.commonService.tasks().length === 0) {
-      this.taskSummary = 'No tasks available to generate summary.';
-      this.showSummary = true;
-      return;
-    }
-
     this.isGeneratingSummary = true;
     this.taskService.generateTaskSummary()
       .pipe(finalize(() => this.isGeneratingSummary = false))
