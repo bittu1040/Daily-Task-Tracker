@@ -2,26 +2,23 @@
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-lg-8 text-center mb-5">
-        <h1 class="display-4 mb-3">Welcome to Task Tracker</h1>
-        <p class="lead mb-4">
-          A modern, intuitive task management solution designed to boost your productivity
-          and help you stay organized.
-        </p>
+        <h1 class="display-4 mb-3">{{'welcome' | translate}}</h1>
+        <p class="lead mb-4">{{ 'appDes' | translate}}</p>
         <div class="features row g-4 mb-5">
           <div class="col-md-4">
             <mat-icon class="feature-icon">check_circle</mat-icon>
-            <h5>Easy Task Management</h5>
-            <p>Add, complete, and track tasks with a simple interface</p>
+            <h5>{{ 'title' | translate}}</h5>
+            <p>{{ 'desc' | translate}}</p>
           </div>
           <div class="col-md-4">
             <mat-icon class="feature-icon">palette</mat-icon>
-            <h5>Customizable Themes</h5>
-            <p>Choose from beautiful themes to match your style</p>
+            <h5>{{ 'theme' | translate}}</h5>
+            <p>{{ 'themeOpt' | translate}}</p>
           </div>
           <div class="col-md-4">
             <mat-icon class="feature-icon">insights</mat-icon>
-            <h5>Progress Tracking</h5>
-            <p>Visual statistics to monitor your productivity</p>
+            <h5>{{ 'progressTrac' | translate}}</h5>
+            <p>{{'visual' | translate}}</p>
           </div>
         </div>
       </div>
@@ -29,31 +26,31 @@
       <div class="col-md-6 col-lg-4">
         <mat-card appearance="outlined" class="login-card">
           <mat-card-header class="justify-content-center">
-            <mat-card-title>Login to Get Started</mat-card-title>
+            <mat-card-title>{{'loginStart' | translate}}</mat-card-title>
           </mat-card-header>
           <mat-card-content class="p-4">
             @if (!isRegistering) {
               <form (ngSubmit)="login()">
                 <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
-                  <mat-label>Email</mat-label>
+                  <mat-label>{{'email' | translate}}</mat-label>
                   <input
                     matInput
                     [(ngModel)]="loginForm.email"
                     name="email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="{{'emailPH' | translate}}"
                     required
                     >
                   <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
-                  <mat-label>Password</mat-label>
+                  <mat-label>{{'pass' | translate}}</mat-label>
                   <input
                     matInput
                     [(ngModel)]="loginForm.password"
                     name="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="{{'passPH' | translate}}"
                     required
                     >
                   <mat-icon matSuffix>lock</mat-icon>
@@ -64,7 +61,7 @@
                   class="w-100"
                   type="submit"
                   >
-                  Login
+                  {{ 'login' | translate }}
                 </button>
                 <mat-divider class="my-4"></mat-divider>
                 <button
@@ -76,17 +73,17 @@
                   >
                   <img src="../../../assets/google.png" alt="Google" class="google-icon">
                   <!-- <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="Google" class="google-icon">  -->
-                  Sign in with Google
+                  {{'signIn' | translate}}
                 </button>
                 <div class="text-center mt-3">
-                  <p class="mb-0">Don't have an account?</p>
+                  <p class="mb-0">{{'acc' | translate}}</p>
                   <button
                     mat-button
                     color="primary"
                     type="button"
                     (click)="toggleRegister()"
                     >
-                    Create one now
+                    {{'new' | translate}}
                   </button>
                 </div>
               </form>
@@ -95,37 +92,37 @@
             @if (isRegistering) {
               <form (ngSubmit)="register()">
                 <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
-                  <mat-label>Full Name</mat-label>
+                  <mat-label>{{'name' | translate}}</mat-label>
                   <input
                     matInput
                     [(ngModel)]="registerForm.name"
                     name="name"
                     type="text"
-                    placeholder="Enter your full name"
+                    placeholder="{{'namePH' | translate}}"
                     required
                     >
                   <mat-icon matSuffix>person</mat-icon>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
-                  <mat-label>Email</mat-label>
+                  <mat-label>{{'email' | translate}}</mat-label>
                   <input
                     matInput
                     [(ngModel)]="registerForm.email"
                     name="email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="{{'emailPH' | translate}}"
                     required
                     >
                   <mat-icon matSuffix>email</mat-icon>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-100 mb-3 theme-form-field">
-                  <mat-label>Password</mat-label>
+                  <mat-label>{{'pass' | translate}}</mat-label>
                   <input
                     matInput
                     [(ngModel)]="registerForm.password"
                     name="password"
                     type="password"
-                    placeholder="Create a password"
+                    placeholder="{{'createPass' | translate}}"
                     required
                     >
                   <mat-icon matSuffix>lock</mat-icon>
@@ -148,7 +145,7 @@
                 class="w-100"
                 type="submit"
                 >
-                Create Account
+                {{'craeteAcc' | translate}}
               </button>
               <mat-divider class="my-4"></mat-divider>
               <button
@@ -160,17 +157,17 @@
                 >
                 <img src="../../../assets/google.png" alt="Google" class="google-icon">
                 <!-- <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_icon.png" alt="Google" class="google-icon">  -->
-                Sign in with Google
+                {{'signIn' | translate}}
               </button>
               <div class="text-center mt-3">
-                <p class="mb-0">Already have an account?</p>
+                <p class="mb-0">{{'alredayAcc' | translate}}</p>
                 <button
                   mat-button
                   color="primary"
                   type="button"
                   (click)="toggleRegister()"
                   >
-                  Login instead
+                  {{'loginIns' | translate}}
                 </button>
               </div>
             </form>

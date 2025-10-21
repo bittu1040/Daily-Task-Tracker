@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Task } from '../models/interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,4 +18,7 @@ export class CommonService {
   totalTasks = signal(0);
   completedTasks = signal(0);
   pendingTasks = signal(0);
+
+  public language = new BehaviorSubject<string>('en');
+  public currentLanguage = this.language.asObservable();
 }

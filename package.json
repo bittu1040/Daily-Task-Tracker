@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
+    "@ngx-translate/core": "^16.0.4",
+    "@ngx-translate/http-loader": "^16.0.1",
     "@supabase/supabase-js": "^2.50.5",
     "@vercel/analytics": "^1.5.0",
     "bootstrap": "^5.3.3",

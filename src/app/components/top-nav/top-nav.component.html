@@ -5,6 +5,15 @@
     </span>
 
     <div class="ms-auto theme-selector">
+      @if(!isMobile){
+        <div class="d-flex align-items-center gap-2 justify-content-end drop-size">
+        <select class="form-select form-select-sm " [(ngModel)]="curLang" (change)="switchLan()">
+          <option *ngFor="let option of options" [value]="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+      }
       <div
         class="theme-option theme-blue-option"
         [class.active]="currentTheme === 'blue'"

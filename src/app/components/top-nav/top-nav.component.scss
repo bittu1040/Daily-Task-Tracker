@@ -3,7 +3,9 @@
     cursor: pointer;
     margin-left: 10px;  
 }
-
+.drop-size{
+    width: 90px;
+}
 
 @media (max-width: 360px) {
     .navbar-brand {
@@ -13,5 +15,5 @@
     .user-menu {
         font-size: 1rem;
     }
-    
+
 }

@@ -15,10 +15,12 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, switchMap } from 'rxjs';
 import { SupabaseService } from '../../services/supabase.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
-  imports: [MatIconModule, MatMenuModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, MatDividerModule],
+  imports: [MatIconModule, MatMenuModule, MatButtonModule, MatCardModule,TranslateModule,
+     MatFormFieldModule, MatInputModule, FormsModule, MatDividerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
