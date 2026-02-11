@@ -46,7 +46,6 @@ export class AddTaskComponent {
 
   addTask(): void {
     if (this.taskForm.valid) {
-      this.commonService.isLoading.set(true);
       
       const taskData = {
         title: this.taskForm.value.taskTitle,
@@ -57,7 +56,6 @@ export class AddTaskComponent {
       const dueDate = taskData.dueDate ? taskData.dueDate : undefined;
       
       this.taskService.addTask(taskData.title, dueDate)
-        .pipe(finalize(() => this.commonService.isLoading.set(false)))
         .subscribe({
           next: (task) => {
             this.commonService.tasks.update((currentTasks) => [...currentTasks, task]);

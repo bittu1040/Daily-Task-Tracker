@@ -82,7 +82,7 @@
                                      [class.overdue]="isOverdue(task.dueDate)" 
                                      [class.due-soon]="isDueSoon(task.dueDate) && !isOverdue(task.dueDate)">
                                     <mat-icon>schedule</mat-icon>
-                                    <span>{{ formatDueDate(task.dueDate) }}</span>
+                                    <span>{{ task.dueDate | dateFormat }}</span>
                                 </div>
                             }
                         </div>

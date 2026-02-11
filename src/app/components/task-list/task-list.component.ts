@@ -9,8 +9,9 @@ import { TaskService } from '../../services/task.service';
 import { ToastrService } from 'ngx-toastr';
 import { Task } from '../../models/interface';
 import { CommonService } from '../../services/common.service';
-import { finalize } from 'rxjs';
+import { exhaustMap, finalize, Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { DateFormatPipe } from '../../pipes/date-format.pipe';
 
 @Component({
   selector: 'app-task-list',
@@ -22,6 +23,7 @@ import { FormsModule } from '@angular/forms';
     MatDividerModule,
     MatCheckboxModule,
     FormsModule,
+    DateFormatPipe
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
@@ -37,24 +39,6 @@ export class TaskListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchTasks();
-  }
-
-  formatDueDate(dueDate: Date | string): string {
-    const date = new Date(dueDate);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    date.setHours(0, 0, 0, 0);
-
-    const diffTime = date.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Tomorrow';
-    if (diffDays === -1) return 'Yesterday';
-    if (diffDays < 0) return `${Math.abs(diffDays)} days ago`;
-    if (diffDays <= 7) return `in ${diffDays} days`;
-
-    return date.toLocaleDateString();
   }
 
   isOverdue(dueDate: Date | string): boolean {
@@ -358,12 +342,23 @@ export class TaskListComponent implements OnInit {
     this.appendTasks(validTasks);
   }
 
+  private appendBulkTasksTrigger = new Subject<void>();
+  
   private appendTasks(tasks: { title: string; dueDate?: string }[]): void {
     this.commonService.isLoading.set(true);
-    
+    this.appendBulkTasksTrigger.next(); // trigger the pipeline
+  }
+
+  initApprendTasks(tasks: { title: string; dueDate?: string }[]): void {
     // Use the bulk import API instead of individual requests
-    this.taskService.importTasks(tasks)
-      .pipe(finalize(() => this.commonService.isLoading.set(false)))
+    this.appendBulkTasksTrigger
+      .pipe(
+        exhaustMap(() =>
+          this.taskService
+            .importTasks(tasks)
+            .pipe(finalize(() => this.commonService.isLoading.set(false)))
+        )
+      )
       .subscribe({
         next: (response) => {
           this.toastr.success(`Successfully imported ${response.imported} task${response.imported > 1 ? 's' : ''}!`);
